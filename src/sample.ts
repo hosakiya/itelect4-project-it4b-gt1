@@ -18,7 +18,7 @@ import type {
 function getUser(id: number): User {
     return {
         id,
-        name: "Mikaela Reyes",
+        name: "Mikaela Lantafe",
         email: "mikaela@example.com",
         role: "student",
         isActive: true,
@@ -29,11 +29,11 @@ function getUser(id: number): User {
 function getBook(id: number): Book {
     return {
         id,
-        title: "The Hobbit",
-        author: "J.R.R. Tolkien",
+        title: "Harry Potter and the Goblet of Fire",
+        author: "J.K Rowling",
         genre: "Fantasy",
         availableCopies: 2,
-        description: "A classic adventure novel about a hobbit and a dragon.",
+        description: "A parody adventure set around a wizarding tournament.",
     };
 }
 

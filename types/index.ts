@@ -60,8 +60,8 @@ export interface ApiResponse<T> {
     data: T;
     message: string;
 }
-
-export type BookSummary = Pick<Book, "id" | "title" | "author">;
+// yung mga utility types
+export type BookSummary = Pick<Book, "id" | "title" | "author">; //Pick <T, K> 
 export type ReservationDraft = Omit<Reservation, "id" | "status">;
 export type UserUpdate = Partial<User>;
 export type ReservationLookup = Record<number, Reservation>;
