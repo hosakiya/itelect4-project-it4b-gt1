@@ -14,3 +14,5 @@ This project models a simple book reservation app for a campus library. It inclu
 1. Install dependencies: npm install
 2. Compile the project: npx tsc --noEmit
 3. Run the sample demo: npx ts-node src/sample.ts
+
+Mikaela Ysabel L. Lantafe
