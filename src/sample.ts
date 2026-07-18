@@ -1,6 +1,6 @@
 import {
     ReservationStatus,
-} from "../types/index.js";
+} from "../types";
 import type {
     ApiResponse,
     Book,
@@ -13,7 +13,7 @@ import type {
     Submission,
     User,
     UserUpdate,
-} from "../types/index.js";
+} from "../types";
 
 function getUser(id: number): User {
     return {
