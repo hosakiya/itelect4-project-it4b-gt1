@@ -1,3 +1,4 @@
+// Mikaela Ysabel L. Lantafe | IT4B
 export interface Student {
     id: number;
     name: string;

@@ -1,3 +1,4 @@
+// Mikaela Ysabel L. Lantafe | IT4B
 import { getStudentReport, formatCourseInfo } from "./sample";
 
 function main(): void {

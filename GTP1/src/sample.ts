@@ -1,3 +1,4 @@
+// Mikaela Ysabel L. Lantafe | IT4B
 import type { Course, Grade, Student } from "./types";
 
 function getStudent(id: number): Student {
