@@ -1,0 +1,425 @@
+/* Mikaela Ysabel L. Lantafe | IT4B */
+/* ── CSS Variables & Reset ────────────────────────────── */
+
+:root {
+  --bg-primary: #0f0f1a;
+  --bg-secondary: #16162a;
+  --bg-card: #1e1e38;
+  --bg-card-hover: #262650;
+  --border-card: rgba(139, 92, 246, 0.15);
+  --border-card-hover: rgba(139, 92, 246, 0.4);
+
+  --text-primary: #f0f0ff;
+  --text-secondary: #a0a0c0;
+  --text-muted: #6b6b8d;
+
+  --accent-violet: #8b5cf6;
+  --accent-indigo: #6366f1;
+  --accent-emerald: #34d399;
+  --accent-amber: #fbbf24;
+  --accent-rose: #f43f5e;
+  --accent-sky: #38bdf8;
+
+  --gradient-hero: linear-gradient(135deg, #8b5cf6 0%, #6366f1 50%, #38bdf8 100%);
+  --gradient-card: linear-gradient(145deg, rgba(139, 92, 246, 0.08) 0%, rgba(99, 102, 241, 0.04) 100%);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 30px rgba(139, 92, 246, 0.15);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+
+  --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── App Layout ───────────────────────────────────────── */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ───────────────────────────────────────────── */
+
+.app-header {
+  background: var(--gradient-hero);
+  padding: 3rem 2rem 2.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.header-content {
+  position: relative;
+  z-index: 1;
+}
+
+.app-header h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+}
+
+.subtitle {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+}
+
+/* ── Toast / Action Bar ───────────────────────────────── */
+
+.toast-bar {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-card);
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  backdrop-filter: blur(10px);
+}
+
+.toast-icon {
+  font-size: 1rem;
+}
+
+/* ── Main Content ─────────────────────────────────────── */
+
+.app-main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ── Sections ─────────────────────────────────────────── */
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.12);
+}
+
+.section-header h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.section-count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  background: rgba(139, 92, 246, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+/* ── Card Grid ────────────────────────────────────────── */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+/* ── Card Base ────────────────────────────────────────── */
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-card-hover);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-3px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem 0;
+}
+
+.card-body {
+  padding: 0.75rem 1.25rem 1rem;
+  flex: 1;
+}
+
+.card-footer {
+  padding: 0.75rem 1.25rem 1rem;
+  border-top: 1px solid rgba(139, 92, 246, 0.08);
+}
+
+/* ── BookCard ─────────────────────────────────────────── */
+
+.genre-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-violet);
+  background: rgba(139, 92, 246, 0.12);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.availability {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.availability.available {
+  color: var(--accent-emerald);
+  background: rgba(52, 211, 153, 0.12);
+}
+
+.availability.unavailable {
+  color: var(--accent-rose);
+  background: rgba(244, 63, 94, 0.12);
+}
+
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+  line-height: 1.3;
+}
+
+.card-author {
+  font-size: 0.85rem;
+  color: var(--accent-sky);
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+
+.card-description {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ── Buttons ──────────────────────────────────────────── */
+
+.btn {
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-reserve {
+  background: linear-gradient(135deg, var(--accent-violet), var(--accent-indigo));
+  color: #fff;
+}
+
+.btn-reserve:hover:not(.btn-disabled) {
+  filter: brightness(1.15);
+  box-shadow: 0 4px 16px rgba(139, 92, 246, 0.35);
+}
+
+.btn-disabled {
+  background: rgba(107, 107, 141, 0.2);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+/* ── ReservationCard ──────────────────────────────────── */
+
+.reservation-card {
+  cursor: pointer;
+}
+
+.reservation-id {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.status-pending {
+  color: var(--accent-amber);
+  background: rgba(251, 191, 36, 0.12);
+}
+
+.status-approved {
+  color: var(--accent-emerald);
+  background: rgba(52, 211, 153, 0.12);
+}
+
+.status-completed {
+  color: var(--accent-sky);
+  background: rgba(56, 189, 248, 0.12);
+}
+
+.status-cancelled {
+  color: var(--accent-rose);
+  background: rgba(244, 63, 94, 0.12);
+}
+
+.reservation-detail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.3rem 0;
+}
+
+.detail-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.detail-value.deadline {
+  color: var(--accent-amber);
+}
+
+.click-hint {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.reservation-card:hover .click-hint {
+  color: var(--accent-violet);
+}
+
+/* ── ReviewBadge ──────────────────────────────────────── */
+
+.review-badge {
+  cursor: pointer;
+}
+
+.review-id {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.rating-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent-amber);
+  background: rgba(251, 191, 36, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+}
+
+.stars-display {
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-amber);
+  margin-bottom: 0.5rem;
+}
+
+.review-note {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.review-meta {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ── Footer ───────────────────────────────────────────── */
+
+.app-footer {
+  text-align: center;
+  padding: 1.5rem;
+  border-top: 1px solid rgba(139, 92, 246, 0.1);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .app-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .app-main {
+    padding: 1.5rem 1rem 3rem;
+  }
+}
