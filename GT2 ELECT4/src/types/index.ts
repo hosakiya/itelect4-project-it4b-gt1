@@ -49,12 +49,15 @@ export interface Review {
     rating: 1 | 2 | 3 | 4 | 5;
 }
 
-export enum ReservationStatus {
-    Pending = "pending",
-    Approved = "approved",
-    Completed = "completed",
-    Cancelled = "cancelled"
-}
+export const ReservationStatus = {
+    Pending: "pending",
+    Approved: "approved",
+    Completed: "completed",
+    Cancelled: "cancelled"
+} as const;
+
+export type ReservationStatus = typeof ReservationStatus[keyof typeof ReservationStatus];
+
 
 export interface ApiResponse<T> {
     success: boolean;
