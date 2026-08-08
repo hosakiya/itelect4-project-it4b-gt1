@@ -4,7 +4,8 @@
   "description": "This project models a simple book reservation app for a campus library. It includes users, books, reservations, and review notes, with a multi-step reservation lifecycle that fits a semester-long TypeScript assignment.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"npm run dev --prefix GTP2\" \"npm run dev --prefix \\\"GT2P3\\\"\""
   },
   "keywords": [],
   "author": "",
@@ -12,6 +13,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@types/node": "^26.1.1",
+    "concurrently": "^10.0.4",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
   },
