@@ -54,8 +54,8 @@ function ReservationCard({ reservation, onClick }: ReservationCardProps) {
 
   const { label, className, icon } = statusConfig[reservation.status];
 
-  const formatDate = (dateStr: string): string => {
-    return new Date(dateStr).toLocaleDateString('en-US', {
+  const formatDate = (date: Date): string => {
+    return date.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',

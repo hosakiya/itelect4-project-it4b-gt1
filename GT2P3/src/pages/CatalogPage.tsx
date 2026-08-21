@@ -1,17 +1,28 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { mockBooks } from '../data/libraryData';
-
-const genres = ['All', ...Array.from(new Set(mockBooks.map((book) => book.genre)))];
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { createReservation, getBooks } from '../api/client';
+import { useUiStore } from '../store/uiStore';
 
 export default function CatalogPage() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedGenre, setSelectedGenre] = useState('All');
   const [mobileGenreOpen, setMobileGenreOpen] = useState(false);
+  const selectedGenre = useUiStore((state) => state.selectedGenre);
+  const setSelectedGenre = useUiStore((state) => state.setSelectedGenre);
+  const queryClient = useQueryClient();
+  const { data: books = [], isLoading, isError } = useQuery({ queryKey: ['books'], queryFn: getBooks });
+  const reservationMutation = useMutation({
+    mutationFn: (bookId: number) => createReservation({ userId: 1, bookId, status: 'pending', reservedAt: new Date().toISOString() }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reservations'] });
+      queryClient.invalidateQueries({ queryKey: ['books'] });
+    },
+  });
+  const genres = useMemo(() => ['All', ...Array.from(new Set(books.map((book) => book.genre)))], [books]);
 
   const filteredBooks = useMemo(() => {
     const query = searchQuery.toLowerCase();
-    return mockBooks.filter((book) => {
+    return books.filter((book) => {
       const matchesSearch =
         book.title.toLowerCase().includes(query) ||
         book.author.toLowerCase().includes(query) ||
@@ -19,7 +30,10 @@ export default function CatalogPage() {
       const matchesGenre = selectedGenre === 'All' || book.genre === selectedGenre;
       return matchesSearch && matchesGenre;
     });
-  }, [searchQuery, selectedGenre]);
+  }, [books, searchQuery, selectedGenre]);
+
+  if (isLoading) return <div className="empty-state py-12">Loading catalog...</div>;
+  if (isError) return <div className="empty-state py-12">Unable to load the catalog.</div>;
 
   return (
     <div className="w-full">
@@ -44,7 +58,7 @@ export default function CatalogPage() {
           </div>
           <ul className="genre-list">
             {genres.map((genre) => {
-              const count = genre === 'All' ? mockBooks.length : mockBooks.filter((book) => book.genre === genre).length;
+              const count = genre === 'All' ? books.length : books.filter((book) => book.genre === genre).length;
               return (
                 <li key={genre}>
                   <button
@@ -71,7 +85,7 @@ export default function CatalogPage() {
               </div>
               <ul className="genre-list">
                 {genres.map((genre) => {
-                  const count = genre === 'All' ? mockBooks.length : mockBooks.filter((book) => book.genre === genre).length;
+                  const count = genre === 'All' ? books.length : books.filter((book) => book.genre === genre).length;
                   return (
                     <li key={genre}>
                       <button
@@ -112,8 +126,13 @@ export default function CatalogPage() {
                     <p className="card-description">{book.description}</p>
                   </div>
                   <div className="card-footer flex items-center justify-between gap-2">
-                    <button type="button" className="btn btn-reserve" disabled={book.availableCopies <= 0}>
-                      {book.availableCopies > 0 ? 'Reserve Now' : 'Not Available'}
+                    <button
+                      type="button"
+                      className="btn btn-reserve"
+                      disabled={book.availableCopies <= 0 || reservationMutation.isPending}
+                      onClick={() => reservationMutation.mutate(book.id)}
+                    >
+                      {reservationMutation.isPending ? 'Reserving...' : book.availableCopies > 0 ? 'Reserve Now' : 'Not Available'}
                     </button>
                     <Link to={`/books/${book.id}`} className="text-sm font-semibold text-[var(--accent-indigo)] hover:underline">
                       Details

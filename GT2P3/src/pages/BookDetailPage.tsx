@@ -1,12 +1,21 @@
 import { useParams } from 'react-router-dom';
-import { mockBooks } from '../data/libraryData';
+import { useQuery } from '@tanstack/react-query';
+import { getBook } from '../api/client';
 
 export default function BookDetailPage() {
   const { bookId } = useParams<{ bookId: string }>();
   const parsedId = Number(bookId ?? '0');
-  const book = mockBooks.find((entry) => entry.id === parsedId);
+  const { data: book, isLoading, isError } = useQuery({
+    queryKey: ['book', bookId],
+    queryFn: () => getBook(parsedId),
+    enabled: Number.isInteger(parsedId) && parsedId > 0,
+  });
 
-  if (!book) {
+  if (isLoading) {
+    return <div className="empty-state py-12">Loading book details...</div>;
+  }
+
+  if (isError || !book) {
     return (
       <div className="w-full max-w-xl rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-sm">
         <h2 className="text-2xl font-serif italic text-[var(--text-primary)]">Book not found</h2>

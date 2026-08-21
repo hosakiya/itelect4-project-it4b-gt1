@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"npm run dev --prefix GTP2\" \"npm run dev --prefix \\\"GT2P3\\\"\""
+    "dev": "concurrently \"npm run dev --prefix GTP2\" \"npm run dev --prefix \\\"GT2P3\\\"\"",
+    "api": "npm run api --prefix GT2P3",
+    "build": "npm run build --prefix GT2P3"
   },
   "keywords": [],
   "author": "",

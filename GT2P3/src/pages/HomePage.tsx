@@ -1,13 +1,23 @@
 import { useNavigate } from 'react-router-dom';
-import { mockBooks, mockCourses, mockReservations, mockReviews, mockUsers } from '../data/libraryData';
+import { useQuery } from '@tanstack/react-query';
+import { getBooks, getCourses, getReservations, getReviews, getUsers } from '../api/client';
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const { data: books = [], isLoading: booksLoading } = useQuery({ queryKey: ['books'], queryFn: getBooks });
+  const { data: users = [], isLoading: usersLoading } = useQuery({ queryKey: ['users'], queryFn: getUsers });
+  const { data: courses = [], isLoading: coursesLoading } = useQuery({ queryKey: ['courses'], queryFn: getCourses });
+  const { data: reservations = [], isLoading: reservationsLoading } = useQuery({ queryKey: ['reservations'], queryFn: getReservations });
+  const { data: reviews = [], isLoading: reviewsLoading } = useQuery({ queryKey: ['reviews'], queryFn: getReviews });
+
+  if (booksLoading || usersLoading || coursesLoading || reservationsLoading || reviewsLoading) {
+    return <div className="empty-state py-12">Loading library overview...</div>;
+  }
 
   const overviewCards = [
-    { label: 'Total Books', value: mockBooks.length, note: 'Curated titles across every genre', accent: 'indigo' },
-    { label: 'Active Reservations', value: mockReservations.length, note: 'Pending pickups and approvals', accent: 'emerald' },
-    { label: 'Review Notes', value: mockReviews.length, note: 'Shared feedback from readers', accent: 'amber' },
+    { label: 'Total Books', value: books.length, note: 'Curated titles across every genre', accent: 'indigo' },
+    { label: 'Active Reservations', value: reservations.length, note: 'Pending pickups and approvals', accent: 'emerald' },
+    { label: 'Review Notes', value: reviews.length, note: 'Shared feedback from readers', accent: 'amber' },
   ];
 
   return (
@@ -65,10 +75,10 @@ export default function HomePage() {
               <h2 className="overview-section-title">Members Directory</h2>
               <p className="overview-section-subtitle">Active accounts and their standing</p>
             </div>
-            <span className="overview-section-pill">{mockUsers.length} active</span>
+            <span className="overview-section-pill">{users.length} active</span>
           </div>
           <div className="overview-card-stack">
-            {mockUsers.map((user) => (
+            {users.map((user) => (
               <article key={user.id} className="user-card p-4 transition-all duration-200">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="flex items-center justify-center w-10 h-10 rounded-full font-bold text-xs bg-[var(--bg-secondary)] text-[var(--accent-indigo)] border border-[var(--border-card)] shrink-0">
@@ -101,10 +111,10 @@ export default function HomePage() {
               <h2 className="overview-section-title">Affiliated Tracks</h2>
               <p className="overview-section-subtitle">Programs linked to the library</p>
             </div>
-            <span className="overview-section-pill">{mockCourses.length} tracks</span>
+            <span className="overview-section-pill">{courses.length} tracks</span>
           </div>
           <div className="overview-card-stack">
-            {mockCourses.map((course) => (
+            {courses.map((course) => (
               <article key={course.id} className="course-card p-4 transition-all duration-200">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--bg-secondary)] text-[var(--accent-amber)] border border-[var(--border-card)] shrink-0">

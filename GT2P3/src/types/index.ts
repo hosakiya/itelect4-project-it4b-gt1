@@ -37,8 +37,8 @@ export interface Reservation {
     userId: number;
     bookId: number;
     status: ReservationStatus;
-    reservedAt: string;
-    pickupDeadline?: string | undefined;
+    reservedAt: Date;
+    pickupDeadline?: Date | undefined;
 }
 
 export interface Review {
@@ -64,6 +64,17 @@ export interface ApiResponse<T> {
     data: T;
     message: string;
 }
+
+export type ApiBook = Omit<Book, "id"> & { id: number };
+export type ApiUser = Omit<User, "id"> & { id: number };
+export type ApiCourse = Omit<Course, "id"> & { id: number };
+export type ApiReview = Omit<Review, "id"> & { id: number };
+export type ApiReservation = Omit<Reservation, "id" | "reservedAt" | "pickupDeadline"> & {
+    id: number;
+    reservedAt: string;
+    pickupDeadline?: string;
+};
+export type CreateReservation = Omit<ApiReservation, "id">;
 // yung mga utility types
 export type BookSummary = Pick<Book, "id" | "title" | "author">; //Pick <T, K> 
 export type ReservationDraft = Omit<Reservation, "id" | "status">;

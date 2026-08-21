@@ -1,0 +1,131 @@
+{
+  "books": [
+    {
+      "id": "1",
+      "title": "Animal Farm",
+      "author": "George Orwell",
+      "genre": "Fiction",
+      "availableCopies": 4,
+      "description": "A satirical allegorical novella."
+    },
+    {
+      "id": "2",
+      "title": "Brave New World",
+      "author": "Aldous Huxley",
+      "genre": "Science Fiction",
+      "availableCopies": 2,
+      "description": "A dystopian novel."
+    },
+    {
+      "id": "3",
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "genre": "Romance",
+      "availableCopies": 4,
+      "description": "A romantic novel of manners."
+    },
+    {
+      "id": "4",
+      "title": "Make It Stick",
+      "author": "Peter C. Brown",
+      "genre": "Education",
+      "availableCopies": 5,
+      "description": "Evidence-based techniques that improve memory and learning efficiency."
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "name": "Mikaela Lantafe",
+      "email": "mikaela@example.com",
+      "role": "student",
+      "isActive": true,
+      "score": 92
+    },
+    {
+      "id": "2",
+      "name": "Carlos Reyes",
+      "email": "carlos@example.com",
+      "role": "librarian",
+      "isActive": true,
+      "score": 88
+    },
+    {
+      "id": "3",
+      "name": "Ariana Gomez",
+      "email": "ariana@example.com",
+      "role": "admin",
+      "isActive": true,
+      "score": 96
+    }
+  ],
+  "courses": [
+    {
+      "id": "1",
+      "title": "Interactive Design",
+      "code": "INTD101",
+      "semester": "1st Semester"
+    },
+    {
+      "id": "2",
+      "title": "Frontend Systems",
+      "code": "FRS201",
+      "semester": "2nd Semester"
+    }
+  ],
+  "reservations": [
+    {
+      "id": "101",
+      "userId": 1,
+      "bookId": 1,
+      "status": "approved",
+      "reservedAt": "2026-07-15T08:30:00Z",
+      "pickupDeadline": "2026-07-22T08:30:00Z"
+    },
+    {
+      "id": "102",
+      "userId": 2,
+      "bookId": 3,
+      "status": "pending",
+      "reservedAt": "2026-07-16T09:00:00Z"
+    },
+    {
+      "userId": 1,
+      "bookId": "1",
+      "status": "pending",
+      "reservedAt": "2026-08-21T13:06:31.202Z",
+      "id": "T5h9Jh_VmFg"
+    },
+    {
+      "userId": 1,
+      "bookId": "1",
+      "status": "pending",
+      "reservedAt": "2026-08-21T13:06:32.776Z",
+      "id": "MnyAfUAPxck"
+    },
+    {
+      "userId": 1,
+      "bookId": "1",
+      "status": "pending",
+      "reservedAt": "2026-08-21T13:06:36.201Z",
+      "id": "VUwJoSH2Mj0"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "201",
+      "reservationId": 101,
+      "authorId": 1,
+      "note": "Great translation and smooth reading experience.",
+      "rating": 5
+    },
+    {
+      "id": "202",
+      "reservationId": 102,
+      "authorId": 2,
+      "note": "A thoughtful recommendation for class reading.",
+      "rating": 4
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

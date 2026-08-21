@@ -1,9 +1,12 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
+import { useThemeStore } from '../store/themeStore';
 
 export default function Layout() {
   const token = useAuthStore((state) => state.token);
   const logout = useAuthStore((state) => state.logout);
+  const isDark = useThemeStore((state) => state.isDark);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
   return (
     <div className="app min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
@@ -39,6 +42,14 @@ export default function Layout() {
                   Logout
                 </button>
               )}
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="px-4 py-2 rounded-full text-sm font-semibold bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-[var(--bg-card-hover)] transition"
+                title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              >
+                {isDark ? '☀️ Light' : '🌙 Dark'}
+              </button>
             </nav>
           </header>
 
