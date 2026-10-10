@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { getBooks, getCourses, getReservations, getReviews, getUsers } from '../api/client';
+import UserCard from '../components/UserCard';
+import CourseCard from '../components/CourseCard';
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -11,133 +13,143 @@ export default function HomePage() {
   const { data: reviews = [], isLoading: reviewsLoading } = useQuery({ queryKey: ['reviews'], queryFn: getReviews });
 
   if (booksLoading || usersLoading || coursesLoading || reservationsLoading || reviewsLoading) {
-    return <div className="empty-state py-12">Loading library overview...</div>;
+    return (
+      <div className="flex flex-col items-center justify-center py-20 gap-3">
+        <div className="w-10 h-10 border-3 border-[var(--border-card)] border-t-[var(--accent-indigo)] rounded-full animate-spin" />
+        <p className="text-sm font-medium text-[var(--text-muted)]">Loading library registry...</p>
+      </div>
+    );
   }
 
   const overviewCards = [
-    { label: 'Total Books', value: books.length, note: 'Curated titles across every genre', accent: 'indigo' },
-    { label: 'Active Reservations', value: reservations.length, note: 'Pending pickups and approvals', accent: 'emerald' },
-    { label: 'Review Notes', value: reviews.length, note: 'Shared feedback from readers', accent: 'amber' },
+    {
+      label: 'Catalog Volumes',
+      value: books.length,
+      note: 'Available for reservation & checkout',
+      accent: 'indigo',
+      icon: '📚',
+    },
+    {
+      label: 'Active Reservations',
+      value: reservations.length,
+      note: 'Queued & scheduled pickups',
+      accent: 'emerald',
+      icon: '🔖',
+    },
+    {
+      label: 'Reader Reviews',
+      value: reviews.length,
+      note: 'Community feedback & ratings',
+      accent: 'amber',
+      icon: '⭐',
+    },
   ];
 
   return (
-    <div className="overview-shell w-full">
-      <div className="overview-hero">
-        <div className="overview-hero-copy">
-          <span className="overview-hero-badge">Library snapshot</span>
-          <h2 className="overview-hero-title">A calm, complete view of your library activity.</h2>
-          <p className="overview-hero-text">Monitor catalog health, reservations, and reader feedback from one polished overview.</p>
-          <button
-            type="button"
-            onClick={() => navigate('/catalog')}
-            className="mt-4 rounded-full bg-[var(--accent-indigo)] px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:opacity-90"
-          >
-            Browse catalog
-          </button>
+    <div className="w-full space-y-8">
+      {/* ── Institutional Hero Banner ── */}
+      <section className="relative overflow-hidden rounded-3xl border border-[var(--border-card)] bg-gradient-to-br from-[var(--bg-card)] via-[var(--bg-secondary)]/50 to-[var(--bg-card)] p-8 sm:p-10 shadow-sm">
+        <div className="relative z-10 max-w-2xl space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] text-xs font-bold uppercase tracking-wider">
+            <span>🏛️</span> DLSL Academic Repository
+          </div>
+          <h2 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] leading-tight">
+            Welcome to the Learning Resource Portal
+          </h2>
+          <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
+            Reserve reference books, track borrowing activity, and manage course catalog materials with ease.
+          </p>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <button
+              type="button"
+              onClick={() => navigate('/catalog')}
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-indigo)] px-6 py-3 text-sm font-semibold text-white shadow-md shadow-[var(--accent-indigo)]/20 transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 cursor-pointer"
+            >
+              <span>Explore Catalog</span>
+              <span>→</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/dashboard')}
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--border-card)] bg-[var(--bg-card)] px-6 py-3 text-sm font-semibold text-[var(--text-primary)] transition-all duration-200 hover:bg-[var(--bg-card-hover)] hover:-translate-y-0.5 cursor-pointer"
+            >
+              <span>My Dashboard</span>
+            </button>
+          </div>
         </div>
-        <div className="overview-hero-accent" />
-      </div>
 
-      <div className="overview-stats-grid">
+        {/* Ambient Decorative Graphic */}
+        <div className="absolute right-0 bottom-0 translate-x-12 translate-y-12 w-64 h-64 rounded-full bg-[var(--accent-indigo)]/5 blur-3xl pointer-events-none" />
+      </section>
+
+      {/* ── Key Metrics ── */}
+      <section className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         {overviewCards.map((card) => (
-          <div key={card.label} className={`overview-stat-card accent-${card.accent}`}>
-            <div className="overview-stat-icon">
-              {card.accent === 'emerald' ? (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M5 12h14" />
-                  <path d="M12 5l7 7-7 7" />
-                </svg>
-              ) : card.accent === 'amber' ? (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 18.8 6.2 21l1.1-6.5L2.6 9.8l6.5-.9L12 3z" />
-                </svg>
-              ) : (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 19V9" />
-                  <path d="M20 19V5" />
-                  <path d="M12 19V13" />
-                </svg>
-              )}
+          <div
+            key={card.label}
+            className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs hover:border-[var(--border-card-hover)] transition-all duration-200"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
+                {card.label}
+              </span>
+              <span className="text-2xl" role="img" aria-label={card.label}>
+                {card.icon}
+              </span>
             </div>
-            <div className="overview-stat-content">
-              <div className="overview-stat-label">{card.label}</div>
-              <div className="overview-stat-value">{card.value}</div>
-              <div className="overview-stat-note">{card.note}</div>
+            <div className="text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+              {card.value}
+            </div>
+            <div className="mt-2 text-xs font-medium text-[var(--text-secondary)]">
+              {card.note}
             </div>
           </div>
         ))}
-      </div>
+      </section>
 
-      <div className="overview-grid">
-        <div className="overview-section-card">
-          <div className="overview-section-header">
+      {/* ── Directory Grids ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Members Directory */}
+        <section className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs space-y-5">
+          <div className="flex items-center justify-between border-b border-[var(--border-card)] pb-4">
             <div>
-              <h2 className="overview-section-title">Members Directory</h2>
-              <p className="overview-section-subtitle">Active accounts and their standing</p>
+              <h3 className="text-lg font-serif font-bold text-[var(--text-primary)]">
+                Members Directory
+              </h3>
+              <p className="text-xs text-[var(--text-muted)] mt-0.5">Active accounts & verified students</p>
             </div>
-            <span className="overview-section-pill">{users.length} active</span>
+            <span className="px-3 py-1 text-xs font-semibold rounded-full bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-card)]">
+              {users.length} Registered
+            </span>
           </div>
-          <div className="overview-card-stack">
+
+          <div className="space-y-3">
             {users.map((user) => (
-              <article key={user.id} className="user-card p-4 transition-all duration-200">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="flex items-center justify-center w-10 h-10 rounded-full font-bold text-xs bg-[var(--bg-secondary)] text-[var(--accent-indigo)] border border-[var(--border-card)] shrink-0">
-                    {user.name
-                      .split(' ')
-                      .map((part) => part[0])
-                      .join('')
-                      .toUpperCase()}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">Account Holder</p>
-                    <h3 className="text-base font-bold text-[var(--text-primary)] truncate">{user.name}</h3>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-3">
-                  <p className="text-sm text-[var(--text-secondary)] truncate pl-[3.25rem]">{user.email}</p>
-                  <div className="flex items-center justify-between bg-[var(--bg-secondary)] p-2 rounded-md ml-[3.25rem]">
-                    <span className="text-xs font-medium text-[var(--text-muted)]">Performance Score</span>
-                    <span className="text-xs font-bold text-[var(--text-primary)]">{user.score}/100</span>
-                  </div>
-                </div>
-              </article>
+              <UserCard key={user.id} user={user} />
             ))}
           </div>
-        </div>
+        </section>
 
-        <div className="overview-section-card">
-          <div className="overview-section-header">
+        {/* Academic Programs */}
+        <section className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs space-y-5">
+          <div className="flex items-center justify-between border-b border-[var(--border-card)] pb-4">
             <div>
-              <h2 className="overview-section-title">Affiliated Tracks</h2>
-              <p className="overview-section-subtitle">Programs linked to the library</p>
+              <h3 className="text-lg font-serif font-bold text-[var(--text-primary)]">
+                Affiliated Academic Tracks
+              </h3>
+              <p className="text-xs text-[var(--text-muted)] mt-0.5">Degree programs supported</p>
             </div>
-            <span className="overview-section-pill">{courses.length} tracks</span>
+            <span className="px-3 py-1 text-xs font-semibold rounded-full bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-[var(--border-card)]">
+              {courses.length} Courses
+            </span>
           </div>
-          <div className="overview-card-stack">
+
+          <div className="space-y-3">
             {courses.map((course) => (
-              <article key={course.id} className="course-card p-4 transition-all duration-200">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--bg-secondary)] text-[var(--accent-amber)] border border-[var(--border-card)] shrink-0">
-                    <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <path d="M12 14l9-5-9-5-9 5 9 5z" />
-                      <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                    </svg>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">Course</p>
-                    <h3 className="text-base font-bold text-[var(--text-primary)] truncate">{course.title}</h3>
-                  </div>
-                  <span className="inline-flex items-center px-2.5 py-0.5 text-xs font-semibold rounded-full bg-[rgba(184,134,11,0.12)] text-[var(--accent-amber)] font-mono">
-                    {course.code}
-                  </span>
-                </div>
-                <div className="flex flex-col gap-3">
-                  <p className="text-sm font-semibold text-[var(--text-secondary)] pl-[3.25rem]">{course.semester}</p>
-                </div>
-              </article>
+              <CourseCard key={course.id} course={course} />
             ))}
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

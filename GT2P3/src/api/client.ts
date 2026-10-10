@@ -13,18 +13,27 @@ import type {
 } from '../types';
 
 const API_URL = 'http://localhost:3001';
+const REQUEST_TIMEOUT = 5000; // 5 seconds
 
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
-  const response = await fetch(`${API_URL}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
-    ...options,
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+  
+  try {
+    const response = await fetch(`${API_URL}${path}`, {
+      headers: { 'Content-Type': 'application/json' },
+      ...options,
+      signal: controller.signal,
+    });
 
-  if (!response.ok) {
-    throw new Error(`API request failed: ${response.status}`);
+    if (!response.ok) {
+      throw new Error(`API request failed: ${response.status}`);
+    }
+
+    return response.json() as Promise<T>;
+  } finally {
+    clearTimeout(timeoutId);
   }
-
-  return response.json() as Promise<T>;
 }
 
 function toReservation(value: ApiReservation): Reservation {

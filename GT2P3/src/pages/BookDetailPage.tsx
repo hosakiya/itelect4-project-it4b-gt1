@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getBook, createReservation } from '../api/client';
 import { useForm } from 'react-hook-form';
@@ -58,30 +58,49 @@ export default function BookDetailPage() {
   };
 
   if (isLoading) {
-    return <div className="empty-state py-12">Loading book details...</div>;
+    return (
+      <div className="flex flex-col items-center justify-center py-20 gap-3">
+        <div className="w-10 h-10 border-3 border-[var(--border-card)] border-t-[var(--accent-indigo)] rounded-full animate-spin" />
+        <p className="text-sm font-medium text-[var(--text-muted)]">Loading book details...</p>
+      </div>
+    );
   }
 
   if (isError || !book) {
     return (
-      <div className="w-full max-w-xl rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-sm">
-        <h2 className="text-2xl font-serif italic text-[var(--text-primary)]">Book not found</h2>
-        <p className="mt-2 text-[var(--text-secondary)]">No book matches the selected URL parameter.</p>
+      <div className="w-full max-w-xl mx-auto rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-8 text-center shadow-xs">
+        <p className="text-3xl mb-2">📖</p>
+        <h2 className="text-2xl font-serif font-bold text-[var(--text-primary)]">Book not found</h2>
+        <p className="mt-2 text-sm text-[var(--text-secondary)]">No volume matches the selected catalog identifier.</p>
+        <Link
+          to="/catalog"
+          className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--accent-indigo)] text-white text-xs font-semibold"
+        >
+          ← Return to Catalog
+        </Link>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-2xl space-y-6">
-      <div className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-sm">
-        <span className="inline-flex rounded-full bg-[var(--bg-secondary)] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[var(--accent-indigo)]">
+    <div className="w-full max-w-2xl mx-auto space-y-6">
+      <Link
+        to="/catalog"
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--accent-indigo)] transition"
+      >
+        ← Back to Catalog
+      </Link>
+
+      <div className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 sm:p-8 shadow-xs">
+        <span className="inline-flex rounded-full bg-[var(--accent-indigo)]/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-[var(--accent-indigo)]">
           {book.genre}
         </span>
-        <h2 className="mt-4 text-3xl font-serif italic text-[var(--text-primary)]">{book.title}</h2>
-        <p className="mt-2 text-[var(--text-secondary)]">By {book.author}</p>
-        <p className="mt-6 text-[var(--text-secondary)]">{book.description}</p>
-        <div className="mt-6 flex items-center justify-between rounded-xl bg-[var(--bg-secondary)] p-4 text-sm text-[var(--text-secondary)]">
-          <span>Available copies</span>
-          <strong className="text-[var(--text-primary)]">{book.availableCopies}</strong>
+        <h2 className="mt-4 text-2xl sm:text-3xl font-serif font-bold text-[var(--text-primary)]">{book.title}</h2>
+        <p className="mt-1 text-sm font-medium text-[var(--text-muted)]">by {book.author}</p>
+        <p className="mt-4 text-sm text-[var(--text-secondary)] leading-relaxed">{book.description}</p>
+        <div className="mt-6 flex items-center justify-between rounded-xl bg-[var(--bg-secondary)] p-4 text-sm border border-[var(--border-card)]">
+          <span className="font-medium text-[var(--text-secondary)]">Available copies in library</span>
+          <strong className="text-base font-bold text-[var(--text-primary)]">{book.availableCopies}</strong>
         </div>
       </div>
 
