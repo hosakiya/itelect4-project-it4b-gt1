@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom';
+import { BookOpen, Moon, Sun } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
 
@@ -34,9 +35,7 @@ export default function Layout() {
 
           {/* Centered Main Title */}
           <div className="flex items-center justify-center gap-3 my-1">
-            <span className="text-3xl sm:text-4xl select-none" role="img" aria-label="Library Books">
-              📚
-            </span>
+            <BookOpen className="w-8 h-8 sm:w-10 sm:h-10 text-[var(--accent-indigo)] shrink-0" strokeWidth={2.2} />
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif italic font-bold tracking-tight text-[var(--accent-indigo)] text-center">
               mika's library
             </h1>
@@ -73,7 +72,12 @@ export default function Layout() {
               className={actionBtnClass}
               title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             >
-              <span>{isDark ? '☀️ Light' : '🌙 Dark'}</span>
+              {isDark ? (
+                <Sun className="w-4 h-4 text-amber-500" strokeWidth={2.2} />
+              ) : (
+                <Moon className="w-4 h-4 text-[var(--accent-indigo)]" strokeWidth={2.2} />
+              )}
+              <span>{isDark ? 'Light' : 'Dark'}</span>
             </button>
           </nav>
         </div>

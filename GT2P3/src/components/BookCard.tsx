@@ -1,4 +1,4 @@
-// Mikaela Ysabel L. Lantafe | IT4B
+import { Bookmark } from 'lucide-react';
 import type { Book } from '../types';
 
 interface BookCardProps {
@@ -30,12 +30,8 @@ function BookCard({ book, onReserve }: BookCardProps) {
         >
           {isAvailable ? (
             <>
-              <svg className="icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: '0.4rem', verticalAlign: 'middle' }}>
-                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z" />
-                <path d="M6 6h10" />
-                <path d="M6 10h10" />
-              </svg>
-              Reserve Now
+              <Bookmark className="w-4 h-4 inline-block mr-1.5 align-middle" />
+              <span>Reserve Now</span>
             </>
           ) : 'Not Available'}
         </button>

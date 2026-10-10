@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AlertCircle, Search, Tag, X } from 'lucide-react';
 import { createReservation, getBooks } from '../api/client';
 import { useUiStore } from '../store/uiStore';
 
@@ -53,7 +54,7 @@ export default function CatalogPage() {
   if (isError) {
     return (
       <div className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-12 text-center max-w-lg mx-auto">
-        <p className="text-2xl mb-2">⚠️</p>
+        <AlertCircle className="w-8 h-8 text-amber-500 mx-auto mb-2" />
         <h3 className="text-lg font-serif font-bold text-[var(--text-primary)]">Unable to load the catalog</h3>
         <p className="text-sm text-[var(--text-muted)] mt-1">Please ensure the json-server API is active on port 3001.</p>
       </div>
@@ -77,7 +78,9 @@ export default function CatalogPage() {
         {/* Search & Filter Controls */}
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <div className="relative flex-1 sm:w-72">
-            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-sm">🔍</span>
+            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none">
+              <Search className="w-4 h-4" />
+            </span>
             <input
               type="text"
               value={searchQuery}
@@ -90,8 +93,9 @@ export default function CatalogPage() {
                 type="button"
                 onClick={() => setSearchQuery('')}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[var(--text-muted)] hover:text-[var(--text-primary)]"
+                title="Clear search"
               >
-                ✕
+                <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
@@ -99,9 +103,10 @@ export default function CatalogPage() {
           <button
             type="button"
             onClick={() => setMobileGenreOpen(true)}
-            className="md:hidden inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-[var(--border-card)] bg-[var(--bg-secondary)] text-sm font-semibold text-[var(--text-secondary)] hover:bg-[var(--bg-card-hover)]"
+            className="md:hidden inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-[var(--border-card)] bg-[var(--bg-secondary)] text-sm font-semibold text-[var(--text-secondary)] hover:bg-[var(--bg-card-hover)] cursor-pointer"
           >
-            <span>🏷️ Genres</span>
+            <Tag className="w-3.5 h-3.5" />
+            <span>Genres</span>
           </button>
         </div>
       </div>
@@ -156,10 +161,11 @@ export default function CatalogPage() {
                 </h4>
                 <button
                   type="button"
-                  className="p-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] font-bold text-lg"
+                  className="p-1 text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
                   onClick={() => setMobileGenreOpen(false)}
+                  title="Close categories"
                 >
-                  ✕
+                  <X className="w-5 h-5" />
                 </button>
               </div>
               <ul className="genre-list space-y-1 mt-4">
@@ -201,7 +207,7 @@ export default function CatalogPage() {
         <div className="catalog-main flex-1">
           {filteredBooks.length === 0 ? (
             <div className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-12 text-center">
-              <p className="text-3xl mb-3">🔍</p>
+              <Search className="w-10 h-10 text-[var(--text-muted)] mx-auto mb-3" strokeWidth={1.5} />
               <h3 className="text-lg font-serif font-bold text-[var(--text-primary)]">No matching books found</h3>
               <p className="text-sm text-[var(--text-muted)] mt-1">Try adjusting your search terms or genre filter.</p>
               <button

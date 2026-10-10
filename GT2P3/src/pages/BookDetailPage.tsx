@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { ArrowLeft, BookX } from 'lucide-react';
 import { getBook, createReservation } from '../api/client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -69,14 +70,15 @@ export default function BookDetailPage() {
   if (isError || !book) {
     return (
       <div className="w-full max-w-xl mx-auto rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-8 text-center shadow-xs">
-        <p className="text-3xl mb-2">📖</p>
+        <BookX className="w-10 h-10 text-[var(--accent-indigo)] mx-auto mb-3" strokeWidth={1.5} />
         <h2 className="text-2xl font-serif font-bold text-[var(--text-primary)]">Book not found</h2>
         <p className="mt-2 text-sm text-[var(--text-secondary)]">No volume matches the selected catalog identifier.</p>
         <Link
           to="/catalog"
-          className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--accent-indigo)] text-white text-xs font-semibold"
+          className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--accent-indigo)] text-white text-xs font-semibold hover:opacity-90 transition"
         >
-          ← Return to Catalog
+          <ArrowLeft className="w-3.5 h-3.5" />
+          <span>Return to Catalog</span>
         </Link>
       </div>
     );
@@ -88,7 +90,8 @@ export default function BookDetailPage() {
         to="/catalog"
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--accent-indigo)] transition"
       >
-        ← Back to Catalog
+        <ArrowLeft className="w-3.5 h-3.5" />
+        <span>Back to Catalog</span>
       </Link>
 
       <div className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 sm:p-8 shadow-xs">

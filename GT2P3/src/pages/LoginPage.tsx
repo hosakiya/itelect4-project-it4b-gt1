@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BookOpen } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,9 +24,9 @@ export default function LoginPage() {
       <div className="absolute inset-x-0 top-0 h-1.5 bg-[var(--accent-indigo)]" />
       
       <div className="text-center mb-6">
-        <span className="text-4xl inline-block mb-3" role="img" aria-label="Book">
-          📚
-        </span>
+        <div className="w-12 h-12 rounded-2xl bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] flex items-center justify-center mx-auto mb-3">
+          <BookOpen className="w-6 h-6" strokeWidth={2.2} />
+        </div>
         <h2 className="text-3xl font-serif font-bold text-[var(--text-primary)]">Student & Faculty Portal</h2>
         <p className="mt-1.5 text-xs text-[var(--text-secondary)]">Sign in with your registry credentials to access reservations.</p>
       </div>

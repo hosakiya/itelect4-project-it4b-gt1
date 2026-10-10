@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { BookOpen, Bookmark, Star, Landmark, ArrowRight } from 'lucide-react';
 import { getBooks, getCourses, getReservations, getReviews, getUsers } from '../api/client';
 import UserCard from '../components/UserCard';
 import CourseCard from '../components/CourseCard';
@@ -27,21 +28,24 @@ export default function HomePage() {
       value: books.length,
       note: 'Available for reservation & checkout',
       accent: 'indigo',
-      icon: '📚',
+      icon: BookOpen,
+      iconColor: 'text-[var(--accent-indigo)] bg-[var(--accent-indigo)]/10',
     },
     {
       label: 'Active Reservations',
       value: reservations.length,
       note: 'Queued & scheduled pickups',
       accent: 'emerald',
-      icon: '🔖',
+      icon: Bookmark,
+      iconColor: 'text-[var(--accent-emerald)] bg-[var(--accent-emerald)]/10',
     },
     {
       label: 'Reader Reviews',
       value: reviews.length,
       note: 'Community feedback & ratings',
       accent: 'amber',
-      icon: '⭐',
+      icon: Star,
+      iconColor: 'text-[var(--accent-amber)] bg-[var(--accent-amber)]/10',
     },
   ];
 
@@ -51,7 +55,8 @@ export default function HomePage() {
       <section className="relative overflow-hidden rounded-3xl border border-[var(--border-card)] bg-gradient-to-br from-[var(--bg-card)] via-[var(--bg-secondary)]/50 to-[var(--bg-card)] p-8 sm:p-10 shadow-sm">
         <div className="relative z-10 max-w-2xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] text-xs font-bold uppercase tracking-wider">
-            <span>🏛️</span> DLSL Academic Repository
+            <Landmark className="w-3.5 h-3.5" />
+            <span>DLSL Academic Repository</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] leading-tight">
             Welcome to the Learning Resource Portal
@@ -66,7 +71,7 @@ export default function HomePage() {
               className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-indigo)] px-6 py-3 text-sm font-semibold text-white shadow-md shadow-[var(--accent-indigo)]/20 transition-all duration-200 hover:opacity-90 hover:-translate-y-0.5 cursor-pointer"
             >
               <span>Explore Catalog</span>
-              <span>→</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
             <button
               type="button"
@@ -84,27 +89,30 @@ export default function HomePage() {
 
       {/* ── Key Metrics ── */}
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        {overviewCards.map((card) => (
-          <div
-            key={card.label}
-            className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs hover:border-[var(--border-card-hover)] transition-all duration-200"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
-                {card.label}
-              </span>
-              <span className="text-2xl" role="img" aria-label={card.label}>
-                {card.icon}
-              </span>
+        {overviewCards.map((card) => {
+          const IconComponent = card.icon;
+          return (
+            <div
+              key={card.label}
+              className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs hover:border-[var(--border-card-hover)] transition-all duration-200"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">
+                  {card.label}
+                </span>
+                <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${card.iconColor}`}>
+                  <IconComponent className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+                {card.value}
+              </div>
+              <div className="mt-2 text-xs font-medium text-[var(--text-secondary)]">
+                {card.note}
+              </div>
             </div>
-            <div className="text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
-              {card.value}
-            </div>
-            <div className="mt-2 text-xs font-medium text-[var(--text-secondary)]">
-              {card.note}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </section>
 
       {/* ── Directory Grids ── */}
