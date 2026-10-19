@@ -3,8 +3,8 @@
 Frontend application for the DLSL Book Reservation & Academic Catalog System. Built with React 19, TypeScript, Vite, Tailwind CSS, TanStack Query, and React Hook Form with Zod validation.
 
 ## Live Deployment
-- **Frontend App Live URL**: `https://<your-frontend-app>.vercel.app`
-- **Backend API Live URL**: `https://<your-backend-app>.vercel.app`
+- **Frontend App Live URL**: `https://itelect4-project-it4b-gt1.vercel.app/`
+- **Backend API Live URL**: `https://itelect4-backend-eosin.vercel.app/`
 
 ## Environment Variables
 Configured in `.env` (local) and Vercel Project Settings (production):
