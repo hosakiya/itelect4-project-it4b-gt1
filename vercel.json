@@ -1,0 +1,10 @@
+{
+  "buildCommand": "npm run build --prefix GT2P3",
+  "outputDirectory": "GT2P3/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
+}
