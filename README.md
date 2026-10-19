@@ -1,18 +1,30 @@
-# Book Reservation System
+# Book Reservation System - Frontend (ITELECT4)
 
-This project models a simple book reservation app for a campus library. It includes users, books, reservations, and review notes, with a multi-step reservation lifecycle that fits a semester-long TypeScript assignment.
+Frontend application for the DLSL Book Reservation & Academic Catalog System. Built with React 19, TypeScript, Vite, Tailwind CSS, TanStack Query, and React Hook Form with Zod validation.
+
+## Live Deployment
+- **Frontend App Live URL**: `https://<your-frontend-app>.vercel.app`
+- **Backend API Live URL**: `https://<your-backend-app>.vercel.app`
+
+## Environment Variables
+Configured in `.env` (local) and Vercel Project Settings (production):
+- `VITE_API_URL`: Base URL of the backend API (e.g. `https://<your-backend-app>.vercel.app` without trailing slash)
+
+*Note: Never commit `.env`. See `.env.example` for reference.*
 
 ## Features
-- Three core entities: User, Book, and Reservation
-- Role-based user types: student, librarian, and admin
-- Reservation lifecycle: pending -> approved -> completed/cancelled
-- List-to-detail flow through books and their reservations
-- Live status feedback for reservation updates
-- Simple generative-style text support for book descriptions and review notes
+- Real authentication flow with Register and Login pages connected to JWT backend
+- Protected routes and persistent session management via Zustand
+- Live book catalog browsing, searching, and filtering by genre
+- Book reservation request modal with form validation
+- Student personal dashboard with active holds, status tracking, and cancellation
+- Integration with live MongoDB backend API via unified `request()` client helper
 
-## How to run
-1. Install dependencies: npm install
-2. Compile the project: npx tsc --noEmit
-3. Run the sample demo: npx ts-node src/sample.ts
+## How to Run Locally
+1. `npm install`
+2. Copy `.env.example` to `GT2P3/.env` and set `VITE_API_URL=http://localhost:4000`
+3. `npm run dev` (starts Vite on `http://localhost:5173`)
+4. Build check: `npm run build` (runs `tsc -b && vite build` with zero TypeScript errors)
 
-Mikaela Ysabel L. Lantafe
+## Author
+Mikaela Ysabel L. Lantafe | IT4B
