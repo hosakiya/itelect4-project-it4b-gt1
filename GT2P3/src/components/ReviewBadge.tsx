@@ -3,7 +3,7 @@ import type { Review } from '../types';
 
 interface ReviewBadgeProps {
   review: Review;
-  onClick: (reviewId: number) => void;
+  onClick: (reviewId: number | string) => void;
 }
 
 function ReviewBadge({ review, onClick }: ReviewBadgeProps) {

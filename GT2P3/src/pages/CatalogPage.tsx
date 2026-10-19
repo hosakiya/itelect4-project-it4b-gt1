@@ -14,12 +14,9 @@ export default function CatalogPage() {
   const { data: books = [], isLoading, isError } = useQuery({ queryKey: ['books'], queryFn: getBooks });
 
   const reservationMutation = useMutation({
-    mutationFn: (bookId: number) =>
+    mutationFn: (bookId: number | string) =>
       createReservation({
-        userId: 1,
-        bookId,
-        status: 'pending',
-        reservedAt: new Date().toISOString(),
+        bookId: String(bookId),
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reservations'] });
@@ -56,7 +53,7 @@ export default function CatalogPage() {
       <div className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-12 text-center max-w-lg mx-auto">
         <AlertCircle className="w-8 h-8 text-amber-500 mx-auto mb-2" />
         <h3 className="text-lg font-serif font-bold text-[var(--text-primary)]">Unable to load the catalog</h3>
-        <p className="text-sm text-[var(--text-muted)] mt-1">Please ensure the json-server API is active on port 3001.</p>
+        <p className="text-sm text-[var(--text-muted)] mt-1">Please ensure the backend API server is running and accessible.</p>
       </div>
     );
   }

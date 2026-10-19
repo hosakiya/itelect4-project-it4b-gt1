@@ -9,22 +9,25 @@ export interface User {
 }
 
 export interface Course {
-    id: number;
+    id?: number | string;
     title: string;
     code: string;
     semester: string;
+    units?: number;
 }
 
 export interface Submission {
-    id: number;
-    studentId: number;
-    courseId: number;
+    id: number | string;
+    studentId: number | string;
+    courseId?: number;
+    courseCode?: string;
+    repoUrl?: string;
     status: "draft" | "submitted" | "reviewed";
     submittedAt?: string;
 }
 
 export interface Book {
-    id: number;
+    id: string | number;
     title: string;
     author: string;
     genre: string;
@@ -33,18 +36,18 @@ export interface Book {
 }
 
 export interface Reservation {
-    id: number;
-    userId: number;
-    bookId: number;
+    id: string | number;
+    userId: string | number;
+    bookId: string | number;
     status: ReservationStatus;
-    reservedAt: Date;
-    pickupDeadline?: Date | undefined;
+    reservedAt: Date | string;
+    pickupDeadline?: Date | string | undefined;
 }
 
 export interface Review {
-    id: number;
-    reservationId: number;
-    authorId: number;
+    id: number | string;
+    reservationId: number | string;
+    authorId: number | string;
     note: string;
     rating: 1 | 2 | 3 | 4 | 5;
 }
@@ -58,25 +61,61 @@ export const ReservationStatus = {
 
 export type ReservationStatus = typeof ReservationStatus[keyof typeof ReservationStatus];
 
-
 export interface ApiResponse<T> {
     success: boolean;
     data: T;
     message: string;
 }
 
-export type ApiBook = Omit<Book, "id"> & { id: number };
-export type ApiUser = Omit<User, "id"> & { id: number };
-export type ApiCourse = Omit<Course, "id"> & { id: number };
-export type ApiReview = Omit<Review, "id"> & { id: number };
-export type ApiReservation = Omit<Reservation, "id" | "reservedAt" | "pickupDeadline"> & {
-    id: number;
-    reservedAt: string;
-    pickupDeadline?: string;
+// ===== SESSION 10: Derived types corrected for real MongoDB backend =====
+
+export type ApiBook = Omit<Book, "id"> & { id: string };
+
+export type ApiUser = Omit<User, "id"> & { id: string };
+
+export type ApiCourse = Omit<Course, "id"> & { id: string };
+
+export type ApiReview = Omit<Review, "id"> & { id: string };
+
+export type ApiSubmission = Omit<
+  Submission,
+  "id" | "studentId" | "submittedAt"
+> & {
+  id: string;
+  studentId: string;
+  submittedAt: string;
 };
-export type CreateReservation = Omit<ApiReservation, "id">;
-// yung mga utility types
-export type BookSummary = Pick<Book, "id" | "title" | "author">; //Pick <T, K> 
+
+export type NewSubmission = {
+  courseCode?: string;
+  repoUrl?: string;
+};
+
+export type ApiReservation = Omit<
+  Reservation,
+  "id" | "userId" | "bookId" | "reservedAt" | "pickupDeadline"
+> & {
+  id: string;
+  userId: string;
+  bookId: string;
+  status: ReservationStatus;
+  reservedAt: string;
+  pickupDeadline?: string;
+};
+
+// What we SEND when creating one. No invented userId, no invented reservedAt, no invented status.
+export type CreateReservation = {
+  bookId: string;
+  pickupDeadline?: string;
+};
+
+export interface AuthReply {
+  token: string;
+  user: ApiUser;
+}
+
+// Utility types
+export type BookSummary = Pick<Book, "id" | "title" | "author">;
 export type ReservationDraft = Omit<Reservation, "id" | "status">;
 export type UserUpdate = Partial<User>;
-export type ReservationLookup = Record<number, Reservation>;
+export type ReservationLookup = Record<string | number, Reservation>;

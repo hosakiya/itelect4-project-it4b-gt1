@@ -5,6 +5,7 @@ import { useThemeStore } from '../store/themeStore';
 
 export default function Layout() {
   const token = useAuthStore((state) => state.token);
+  const userName = useAuthStore((state) => state.userName);
   const logout = useAuthStore((state) => state.logout);
   const isDark = useThemeStore((state) => state.isDark);
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
@@ -58,12 +59,17 @@ export default function Layout() {
               <span>Dashboard</span>
             </NavLink>
             {!token ? (
-              <NavLink to="/login" className={getNavLinkClass}>
-                <span>Login</span>
-              </NavLink>
+              <>
+                <NavLink to="/login" className={getNavLinkClass}>
+                  <span>Login</span>
+                </NavLink>
+                <NavLink to="/register" className={getNavLinkClass}>
+                  <span>Register</span>
+                </NavLink>
+              </>
             ) : (
               <button type="button" onClick={logout} className={actionBtnClass}>
-                <span>Logout</span>
+                <span>Logout {userName ? `(${userName})` : ''}</span>
               </button>
             )}
             <button

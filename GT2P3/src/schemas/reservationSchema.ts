@@ -2,10 +2,7 @@ import { z } from 'zod';
 
 export const reservationSchema = z
   .object({
-    userId: z
-      .number({ message: "User ID must be a number" })
-      .int("User ID must be an integer")
-      .positive("User ID must be a positive number"),
+    userId: z.union([z.string(), z.number()]).optional(),
     pickupDeadline: z.string().min(1, "Pickup deadline is required"),
     agreeToTerms: z.boolean().refine((val) => val === true, {
       message: "You must agree to the library policies",

@@ -7,6 +7,7 @@ import CatalogPage from './pages/CatalogPage';
 import DashboardPage from './pages/DashboardPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { useThemeStore } from './store/themeStore';
 import './App.css';
@@ -29,6 +30,7 @@ function App() {
         <Route path="/catalog" element={<CatalogPage />} />
         <Route path="/books/:bookId" element={<BookDetailPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />

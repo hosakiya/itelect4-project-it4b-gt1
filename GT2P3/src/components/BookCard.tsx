@@ -3,7 +3,7 @@ import type { Book } from '../types';
 
 interface BookCardProps {
   book: Book;
-  onReserve: (bookId: number) => void;
+  onReserve: (bookId: string | number) => void;
 }
 
 function BookCard({ book, onReserve }: BookCardProps) {
