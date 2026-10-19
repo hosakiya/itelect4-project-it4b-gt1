@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run dev --prefix GT2P3",
+    "dev": "concurrently -k \"npm run dev --prefix GT2P3\" \"npm run dev --prefix ..\\it-elect-backend\"",
     "build": "npm run build --prefix GT2P3 && node -e \"require('fs').cpSync('GT2P3/dist', 'dist', {recursive: true})\""
   },
   "keywords": [],
