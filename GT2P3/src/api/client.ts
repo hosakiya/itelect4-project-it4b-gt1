@@ -12,17 +12,15 @@ import type {
 import useAuthStore from "../store/authStore";
 
 // Vite exposes variables whose name starts with VITE_.
-// We provide a fallback to the live production backend so the deployed app
-// never crashes with a blank screen if environment variables are not injected.
+export const BACKEND_URL = "https://itelect4-backend-eosin.vercel.app";
+
+// In production on Vercel, relative path "/api/..." uses Vercel rewrites (same-origin, zero CORS issues).
+// If an absolute VITE_API_URL is configured (e.g. in dev "http://localhost:4000"), it takes precedence.
 export const API_URL =
   (import.meta.env.VITE_API_URL as string | undefined) ||
-  "https://itelect4-backend-eosin.vercel.app";
-
-if (!import.meta.env.VITE_API_URL && import.meta.env.DEV) {
-  console.warn(
-    "VITE_API_URL is missing. Using fallback: " + API_URL,
-  );
-}
+  (typeof window !== "undefined" && window.location.hostname.includes("vercel.app")
+    ? ""
+    : BACKEND_URL);
 
 // Every call goes through here: the host, the JSON header, the token
 // when there is one, and the API's own message when it refuses.
@@ -31,15 +29,33 @@ async function request<T>(
   init: RequestInit = {},
 ): Promise<T> {
   const token = useAuthStore.getState().token;
+  const primaryUrl = API_URL ? `${API_URL}${path}` : path;
 
-  const res = await fetch(`${API_URL}${path}`, {
-    ...init,
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...init.headers,
-    },
-  });
+  let res: Response;
+  try {
+    res = await fetch(primaryUrl, {
+      ...init,
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...init.headers,
+      },
+    });
+  } catch (err) {
+    // If same-origin proxy failed or network error occurred, fallback directly to BACKEND_URL
+    if (primaryUrl !== `${BACKEND_URL}${path}`) {
+      res = await fetch(`${BACKEND_URL}${path}`, {
+        ...init,
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          ...init.headers,
+        },
+      });
+    } else {
+      throw err;
+    }
+  }
 
   if (!res.ok) {
     const body = await res.json().catch(() => null);
