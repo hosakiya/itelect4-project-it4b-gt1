@@ -66,13 +66,7 @@ html.dark,
 }
 
 
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* Resets are managed cleanly by Tailwind CSS @layer base to avoid overriding utilities */
 
 body {
   font-family: var(--font-body);

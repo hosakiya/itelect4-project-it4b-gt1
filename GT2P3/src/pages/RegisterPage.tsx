@@ -40,8 +40,9 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto my-6">
-      <div className="relative overflow-hidden rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-8 sm:p-10 shadow-lg">
+    <div className="w-full flex-1 flex flex-col items-center justify-center py-6 sm:py-12">
+      <div className="w-full max-w-md mx-auto">
+        <div className="relative overflow-hidden rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-8 sm:p-10 shadow-lg">
         {/* Decorative Top Emerald Bar */}
         <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[var(--accent-emerald)] to-[var(--accent-indigo)]" />
 
@@ -156,5 +157,6 @@ export default function RegisterPage() {
         </p>
       </div>
     </div>
+  </div>
   );
 }

@@ -248,7 +248,7 @@ export default function Layout() {
       </header>
 
       {/* ── Main Content Container ── */}
-      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 flex-1">
+      <main className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 flex-1 flex flex-col">
         <Outlet />
       </main>
 
