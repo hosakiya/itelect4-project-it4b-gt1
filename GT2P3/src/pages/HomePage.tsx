@@ -132,9 +132,15 @@ export default function HomePage() {
           </div>
 
           <div className="space-y-3">
-            {users.map((user) => (
-              <UserCard key={user.id} user={user} />
-            ))}
+            {users.length === 0 ? (
+              <p className="text-xs text-[var(--text-muted)] italic text-center py-4">
+                No public member records to display.
+              </p>
+            ) : (
+              users.map((user) => (
+                <UserCard key={user.id} user={user} />
+              ))
+            )}
           </div>
         </section>
 
@@ -153,9 +159,15 @@ export default function HomePage() {
           </div>
 
           <div className="space-y-3">
-            {courses.map((course) => (
-              <CourseCard key={course.id} course={course} />
-            ))}
+            {courses.length === 0 ? (
+              <p className="text-xs text-[var(--text-muted)] italic text-center py-4">
+                No academic courses found.
+              </p>
+            ) : (
+              courses.map((course) => (
+                <CourseCard key={course.code || course.id} course={course} />
+              ))
+            )}
           </div>
         </section>
       </div>

@@ -44,7 +44,9 @@ export default function DashboardPage() {
   // Backend already filters reservations for the authenticated user
   const userReservations = useMemo(() => {
     return [...reservations].sort(
-      (a, b) => new Date(b.reservedAt).getTime() - new Date(a.reservedAt).getTime()
+      (a, b) =>
+        (new Date(b.reservedAt).getTime() || 0) -
+        (new Date(a.reservedAt).getTime() || 0)
     );
   }, [reservations]);
 

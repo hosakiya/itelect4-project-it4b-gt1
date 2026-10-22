@@ -1,11 +1,14 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AlertCircle, Search, Tag, X } from 'lucide-react';
 import { createReservation, getBooks } from '../api/client';
 import { useUiStore } from '../store/uiStore';
+import { useAuthStore } from '../store/authStore';
 
 export default function CatalogPage() {
+  const navigate = useNavigate();
+  const token = useAuthStore((state) => state.token);
   const [searchQuery, setSearchQuery] = useState('');
   const [mobileGenreOpen, setMobileGenreOpen] = useState(false);
   const selectedGenre = useUiStore((state) => state.selectedGenre);
@@ -21,8 +24,21 @@ export default function CatalogPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reservations'] });
       queryClient.invalidateQueries({ queryKey: ['books'] });
+      alert('Reservation requested successfully! You can track it in your Dashboard.');
+    },
+    onError: (err: any) => {
+      alert(err?.message || 'Failed to submit reservation.');
     },
   });
+
+  const handleReserve = (bookId: number | string) => {
+    if (!token) {
+      alert('Please log in first to reserve this volume.');
+      navigate('/login');
+      return;
+    }
+    reservationMutation.mutate(bookId);
+  };
 
   const genres = useMemo(() => ['All', ...Array.from(new Set(books.map((book) => book.genre)))], [books]);
 
@@ -264,7 +280,7 @@ export default function CatalogPage() {
                       <button
                         type="button"
                         disabled={!isAvailable || reservationMutation.isPending}
-                        onClick={() => reservationMutation.mutate(book.id)}
+                        onClick={() => handleReserve(book.id)}
                         className={`flex-1 py-2 px-3 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer ${
                           isAvailable
                             ? 'bg-[var(--accent-indigo)] text-white hover:opacity-90 shadow-xs'
