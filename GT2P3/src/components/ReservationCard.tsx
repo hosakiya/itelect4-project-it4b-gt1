@@ -52,10 +52,16 @@ function ReservationCard({ reservation, onClick }: ReservationCardProps) {
     },
   };
 
-  const { label, className, icon } = statusConfig[reservation.status];
+  const config =
+    statusConfig[reservation.status] ?? statusConfig[ReservationStatus.Pending];
+  const { label, className, icon } = config;
 
   const formatDate = (date: Date | string): string => {
-    return new Date(date).toLocaleDateString('en-US', {
+    const d = new Date(date);
+    if (isNaN(d.getTime())) {
+      return String(date || 'N/A');
+    }
+    return d.toLocaleDateString('en-US', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',

@@ -24,11 +24,19 @@ export default function BookDetailPage() {
   });
 
   const reservationMutation = useMutation({
-    mutationFn: (data: { pickupDeadline: string }) =>
-      createReservation({
+    mutationFn: (data: { pickupDeadline: string }) => {
+      let deadlineIso: string | undefined = undefined;
+      if (data.pickupDeadline) {
+        const d = new Date(data.pickupDeadline);
+        if (!isNaN(d.getTime())) {
+          deadlineIso = d.toISOString();
+        }
+      }
+      return createReservation({
         bookId: String(bookId),
-        pickupDeadline: data.pickupDeadline ? new Date(data.pickupDeadline).toISOString() : undefined,
-      }),
+        pickupDeadline: deadlineIso,
+      });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reservations'] });
       queryClient.invalidateQueries({ queryKey: ['books'] });

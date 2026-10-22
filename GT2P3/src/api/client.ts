@@ -11,15 +11,16 @@ import type {
 } from "../types/index";
 import useAuthStore from "../store/authStore";
 
-// Vite only exposes variables whose name starts with VITE_, and it
-// replaces this at BUILD time -- the value that was in .env when
-// `npm run build` ran is baked into the bundle.
-export const API_URL = import.meta.env.VITE_API_URL;
+// Vite exposes variables whose name starts with VITE_.
+// We provide a fallback to the live production backend so the deployed app
+// never crashes with a blank screen if environment variables are not injected.
+export const API_URL =
+  (import.meta.env.VITE_API_URL as string | undefined) ||
+  "https://itelect4-backend-eosin.vercel.app";
 
-if (!API_URL) {
-  throw new Error(
-    "VITE_API_URL is missing. Copy .env.example to .env, fill it in, " +
-      "and restart npm run dev.",
+if (!import.meta.env.VITE_API_URL && import.meta.env.DEV) {
+  console.warn(
+    "VITE_API_URL is missing. Using fallback: " + API_URL,
   );
 }
 
@@ -54,12 +55,13 @@ async function request<T>(
 }
 
 function toReservation(value: ApiReservation): Reservation {
+  const resId = value.id ?? (value as any)._id ?? String(Math.random());
   return {
-    id: value.id,
+    id: resId,
     userId: value.userId,
     bookId: value.bookId,
     status: value.status,
-    reservedAt: new Date(value.reservedAt),
+    reservedAt: value.reservedAt ? new Date(value.reservedAt) : new Date(),
     pickupDeadline: value.pickupDeadline ? new Date(value.pickupDeadline) : undefined,
   };
 }
@@ -100,8 +102,17 @@ export function fetchCourseByCode(code: string): Promise<Course> {
 
 // ---- Reservations: private. Token attached automatically by request()
 export async function getReservations(): Promise<Reservation[]> {
-  const reservations = await request<ApiReservation[]>("/api/reservations");
-  return reservations.map(toReservation);
+  const token = useAuthStore.getState().token;
+  if (!token) {
+    return [];
+  }
+  try {
+    const reservations = await request<ApiReservation[]>("/api/reservations");
+    return Array.isArray(reservations) ? reservations.map(toReservation) : [];
+  } catch (err) {
+    console.error("Failed to load reservations:", err);
+    return [];
+  }
 }
 
 export async function fetchReservations(): Promise<Reservation[]> {

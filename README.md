@@ -3,8 +3,8 @@
 Frontend application for the DLSL Book Reservation & Academic Catalog System. Built with React 19, TypeScript, Vite, Tailwind CSS, TanStack Query, and React Hook Form with Zod validation.
 
 ## Live Deployment
-- **Frontend App Live URL**: `https://<your-frontend-app>.vercel.app`
-- **Backend API Live URL**: `https://<your-backend-app>.vercel.app`
+- **Frontend App Live URL**: `https://itelect4-project-it4b-gt1.vercel.app/`
+- **Backend API Live URL**: `https://itelect4-backend-eosin.vercel.app/`
 
 ## Environment Variables
 Configured in `.env` (local) and Vercel Project Settings (production):
@@ -21,10 +21,11 @@ Configured in `.env` (local) and Vercel Project Settings (production):
 - Integration with live MongoDB backend API via unified `request()` client helper
 
 ## How to Run Locally
-1. `npm install`
-2. Copy `.env.example` to `GT2P3/.env` and set `VITE_API_URL=http://localhost:4000`
-3. `npm run dev` (starts Vite on `http://localhost:5173`)
-4. Build check: `npm run build` (runs `tsc -b && vite build` with zero TypeScript errors)
+1. Install dependencies: `npm install`, `npm install --prefix GT2P3`, and `npm install --prefix ..\it-elect-backend`
+2. Copy `GT2P3/.env.example` to `GT2P3/.env` and set `VITE_API_URL=http://localhost:4000`
+3. Copy `..\it-elect-backend\.env.example` to `..\it-elect-backend\.env`; set `MONGODB_URI` and `JWT_SECRET`. The example allows `http://localhost:5173` through CORS.
+4. Run `npm run dev` to start both the frontend (`http://localhost:5173`) and backend API (`http://localhost:4000`).
+5. Build check: `npm run build` (runs `tsc -b && vite build` with zero TypeScript errors)
 
 ## Author
 Mikaela Ysabel L. Lantafe | IT4B

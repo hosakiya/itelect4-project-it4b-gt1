@@ -15,11 +15,12 @@ function UserCard({ user, variant = 'default' }: UserCardProps) {
       ? 'bg-[rgba(109,140,156,0.12)] text-[var(--accent-sky)]'
       : 'bg-[rgba(140,98,57,0.12)] text-[var(--accent-violet)]';
 
-  const initials = user.name
+  const initials = (user.name || 'User')
     .split(' ')
+    .filter(Boolean)
     .map((n) => n[0])
     .join('')
-    .toUpperCase();
+    .toUpperCase() || 'U';
 
   return (
     <article className={`user-card p-4 transition-all duration-200 ${compact ? 'sm:p-3' : ''}`}>
