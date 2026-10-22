@@ -1,8 +1,19 @@
 import { useMemo, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { BookOpen, Star, UserCheck, Compass, Home, Clock, CheckCircle2, XCircle, Calendar, ArrowRight } from 'lucide-react';
-import { getBooks, getReservations, getReviews, cancelReservation } from '../api/client';
+import {
+  BookOpen,
+  Compass,
+  Clock,
+  CheckCircle2,
+  XCircle,
+  Calendar,
+  ArrowRight,
+  ShieldCheck,
+  Trash2,
+  Sparkles
+} from 'lucide-react';
+import { getBooks, getReservations, cancelReservation } from '../api/client';
 import { useAuthStore } from '../store/authStore';
 
 export default function DashboardPage() {
@@ -13,13 +24,16 @@ export default function DashboardPage() {
 
   const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'cancelled'>('all');
 
-  const { data: books = [], isLoading: booksLoading } = useQuery({ queryKey: ['books'], queryFn: getBooks });
+  const { data: books = [], isLoading: booksLoading } = useQuery({
+    queryKey: ['books'],
+    queryFn: getBooks,
+  });
+
   const { data: reservations = [], isLoading: reservationsLoading } = useQuery({
     queryKey: ['reservations'],
     queryFn: getReservations,
     enabled: Boolean(token),
   });
-  const { data: reviews = [] } = useQuery({ queryKey: ['reviews'], queryFn: getReviews });
 
   const cancelMutation = useMutation({
     mutationFn: ({ reservationId }: { reservationId: number | string }) =>
@@ -27,6 +41,10 @@ export default function DashboardPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['reservations'] });
       queryClient.invalidateQueries({ queryKey: ['books'] });
+      alert('Reservation successfully cancelled.');
+    },
+    onError: (err: any) => {
+      alert(err?.message || 'Failed to cancel reservation.');
     },
   });
 
@@ -41,7 +59,7 @@ export default function DashboardPage() {
     return map;
   }, [books]);
 
-  // Backend already filters reservations for the authenticated user
+  // Sort user reservations by date descending
   const userReservations = useMemo(() => {
     return [...reservations].sort(
       (a, b) =>
@@ -73,114 +91,133 @@ export default function DashboardPage() {
     return userReservations;
   }, [userReservations, filterStatus]);
 
+  const handleCancelClick = (resId: number | string, bookTitle?: string) => {
+    if (window.confirm(`Are you sure you want to cancel the hold for "${bookTitle || 'this book'}"?`)) {
+      cancelMutation.mutate({ reservationId: resId });
+    }
+  };
+
   if (booksLoading || reservationsLoading) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 gap-3">
-        <div className="w-10 h-10 border-3 border-[var(--border-card)] border-t-[var(--accent-indigo)] rounded-full animate-spin" />
-        <p className="text-sm font-medium text-[var(--text-muted)]">Loading your personal dashboard...</p>
+      <div className="flex flex-col items-center justify-center py-28 gap-4">
+        <div className="w-12 h-12 border-3 border-[var(--border-card)] border-t-[var(--accent-emerald)] rounded-full animate-spin" />
+        <p className="text-sm font-medium text-[var(--text-muted)]">
+          Loading your personal library dashboard...
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto flex flex-col gap-8">
-      {/* ── Welcome Header ── */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-card)] pb-5">
+    <div className="w-full max-w-5xl mx-auto space-y-8">
+      {/* ── Welcome Header Bar ── */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-card)] pb-6">
         <div>
-          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[var(--text-primary)]">
-            Student Dashboard
+          <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--accent-emerald)] mb-1 font-mono">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Student Registry Portal</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+            Personal Dashboard
           </h2>
-          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1">
-            Welcome back, <span className="font-semibold text-[var(--accent-indigo)]">{userName || 'Student'}</span> • Manage your active library reservations
+          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-0.5">
+            Welcome back, <span className="font-semibold text-[var(--accent-emerald)]">{userName || 'Student'}</span> • Track and manage your active library holds
           </p>
         </div>
+
         <button
           type="button"
           onClick={() => navigate('/catalog')}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--accent-indigo)] text-white text-xs font-semibold hover:opacity-90 transition shadow-xs cursor-pointer self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--accent-indigo)] hover:bg-[var(--accent-indigo-hover)] text-white text-xs font-semibold shadow-xs transition-all self-start sm:self-auto cursor-pointer"
         >
           <Compass className="w-4 h-4" />
-          <span>Reserve Another Book</span>
+          <span>Browse 50 Catalog Books</span>
         </button>
       </div>
 
-      {/* ── Live Stats Section ── */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {/* Books Reserved */}
-        <div className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs flex flex-col justify-between">
+      {/* ── Live Stats Cards ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {/* Active Holds */}
+        <div className="rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Active Holds</span>
-              <div className="w-8 h-8 rounded-lg bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] flex items-center justify-center">
+              <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] font-mono">
+                Active Holds
+              </span>
+              <div className="w-9 h-9 rounded-xl bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] flex items-center justify-center">
                 <BookOpen className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+            <div className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
               {activeReservations.length}
             </div>
           </div>
           <div className="mt-3 text-xs text-[var(--text-secondary)] pt-3 border-t border-[var(--border-card)] flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-emerald)]" />
-            <span>{approvedCount} ready for pickup • {pendingCount} pending</span>
+            <span className="w-2 h-2 rounded-full bg-[var(--accent-emerald)]" />
+            <span>{approvedCount} ready for pickup • {pendingCount} queued</span>
           </div>
         </div>
 
-        {/* Reviews Written */}
-        <div className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs flex flex-col justify-between">
+        {/* Total Reservations */}
+        <div className="rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Reviews Given</span>
-              <div className="w-8 h-8 rounded-lg bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] flex items-center justify-center">
-                <Star className="w-4 h-4" />
+              <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] font-mono">
+                Total Requests
+              </span>
+              <div className="w-9 h-9 rounded-xl bg-[var(--accent-amber)]/10 text-[var(--accent-amber)] flex items-center justify-center">
+                <Calendar className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
-              {reviews.length}
+            <div className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+              {userReservations.length}
             </div>
           </div>
           <div className="mt-3 text-xs text-[var(--text-secondary)] pt-3 border-t border-[var(--border-card)]">
-            Verified borrower feedback
+            Lifetime reservation history
           </div>
         </div>
 
         {/* Account Standing */}
-        <div className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs flex flex-col justify-between">
+        <div className="rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs flex flex-col justify-between">
           <div>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)]">Account Standing</span>
-              <div className="w-8 h-8 rounded-lg bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] flex items-center justify-center">
-                <UserCheck className="w-4 h-4" />
+              <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] font-mono">
+                Account Status
+              </span>
+              <div className="w-9 h-9 rounded-xl bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] flex items-center justify-center">
+                <ShieldCheck className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-2xl font-serif font-bold text-[var(--text-primary)] tracking-tight mt-1">
-              Active Member
+            <div className="text-xl sm:text-2xl font-serif font-bold text-[var(--text-primary)] tracking-tight mt-1">
+              Active Learner
             </div>
           </div>
           <div className="mt-3 text-xs text-[var(--text-secondary)] pt-3 border-t border-[var(--border-card)] flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[var(--accent-emerald)]" />
-            <span>Good standing • DLSL Registry Verified</span>
+            <span>Good standing • DLSL Verified</span>
           </div>
         </div>
       </div>
 
-      {/* ── My Reserved Books Live Section ── */}
+      {/* ── Main Reservations Section Container ── */}
       <section className="rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 sm:p-8 shadow-xs space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-card)] pb-4">
           <div>
             <h3 className="text-xl font-serif font-bold text-[var(--text-primary)]">
-              My Book Reservations
+              Your Book Holds & Requests
             </h3>
             <p className="text-xs text-[var(--text-muted)] mt-0.5">
-              Updates in real-time as you reserve titles from the library catalog
+              Live status updates for reserved physical library volumes
             </p>
           </div>
 
-          {/* Filter Pills */}
-          <div className="flex items-center gap-2 bg-[var(--bg-secondary)] p-1 rounded-full border border-[var(--border-card)]">
+          {/* Filter Pills Container */}
+          <div className="flex items-center gap-1.5 bg-[var(--bg-secondary)] p-1 rounded-full border border-[var(--border-card)] self-start sm:self-auto">
             <button
               type="button"
               onClick={() => setFilterStatus('all')}
-              className={`px-3 py-1 rounded-full text-xs font-semibold transition cursor-pointer ${
+              className={`px-3.5 py-1 rounded-full text-xs font-semibold transition cursor-pointer ${
                 filterStatus === 'all'
                   ? 'bg-[var(--accent-indigo)] text-white shadow-xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -191,7 +228,7 @@ export default function DashboardPage() {
             <button
               type="button"
               onClick={() => setFilterStatus('active')}
-              className={`px-3 py-1 rounded-full text-xs font-semibold transition cursor-pointer ${
+              className={`px-3.5 py-1 rounded-full text-xs font-semibold transition cursor-pointer ${
                 filterStatus === 'active'
                   ? 'bg-[var(--accent-indigo)] text-white shadow-xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -202,7 +239,7 @@ export default function DashboardPage() {
             <button
               type="button"
               onClick={() => setFilterStatus('cancelled')}
-              className={`px-3 py-1 rounded-full text-xs font-semibold transition cursor-pointer ${
+              className={`px-3.5 py-1 rounded-full text-xs font-semibold transition cursor-pointer ${
                 filterStatus === 'cancelled'
                   ? 'bg-[var(--accent-indigo)] text-white shadow-xs'
                   : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
@@ -213,32 +250,32 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Reservations Cards List */}
+        {/* Reservations List */}
         {!token ? (
           <div className="rounded-2xl border border-dashed border-[var(--border-card)] bg-[var(--bg-secondary)]/50 p-12 text-center space-y-3">
-            <BookOpen className="w-10 h-10 text-[var(--text-muted)] mx-auto" strokeWidth={1.5} />
+            <BookOpen className="w-10 h-10 text-[var(--text-muted)] mx-auto opacity-50" strokeWidth={1.5} />
             <h4 className="text-base font-serif font-bold text-[var(--text-primary)]">
               Authentication Required
             </h4>
             <p className="text-xs text-[var(--text-muted)] max-w-sm mx-auto">
-              Please log in to your library account to view and manage your active reservations.
+              Please sign in to your library account to view your reservations and checkout activity.
             </p>
             <button
               type="button"
               onClick={() => navigate('/login')}
               className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--accent-indigo)] text-white text-xs font-semibold hover:opacity-90 transition cursor-pointer"
             >
-              <span>Log In</span>
+              <span>Sign In Now</span>
             </button>
           </div>
         ) : displayedReservations.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-[var(--border-card)] bg-[var(--bg-secondary)]/50 p-12 text-center space-y-3">
-            <BookOpen className="w-10 h-10 text-[var(--text-muted)] mx-auto" strokeWidth={1.5} />
+            <BookOpen className="w-10 h-10 text-[var(--text-muted)] mx-auto opacity-50" strokeWidth={1.5} />
             <h4 className="text-base font-serif font-bold text-[var(--text-primary)]">
-              No reservations found
+              No reservations in this filter
             </h4>
             <p className="text-xs text-[var(--text-muted)] max-w-sm mx-auto">
-              You don't have any reservations in this filter. Explore the catalog to request titles for pickup.
+              You do not have any holds under this status. Browse the catalog to find and reserve academic titles.
             </p>
             <button
               type="button"
@@ -246,7 +283,7 @@ export default function DashboardPage() {
               className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--accent-indigo)] text-white text-xs font-semibold hover:opacity-90 transition cursor-pointer"
             >
               <Compass className="w-3.5 h-3.5" />
-              <span>Browse 50 Catalog Books</span>
+              <span>Browse Catalog Titles</span>
             </button>
           </div>
         ) : (
@@ -257,11 +294,13 @@ export default function DashboardPage() {
               const isApproved = res.status === 'approved';
               const isPending = res.status === 'pending';
 
-              const reservedDate = new Date(res.reservedAt).toLocaleDateString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              });
+              const reservedDate = res.reservedAt
+                ? new Date(res.reservedAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })
+                : 'Recent';
 
               const deadlineDate = res.pickupDeadline
                 ? new Date(res.pickupDeadline).toLocaleDateString('en-US', {
@@ -274,55 +313,55 @@ export default function DashboardPage() {
               return (
                 <div
                   key={res.id}
-                  className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-5 shadow-xs hover:border-[var(--border-card-hover)] transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
+                  className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-5 shadow-xs hover:border-[var(--accent-emerald)]/30 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
                 >
-                  {/* Book & Reservation Info */}
+                  {/* Book & Hold Info */}
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-12 h-12 rounded-2xl bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] flex items-center justify-center shrink-0 mt-0.5">
                       <BookOpen className="w-6 h-6" strokeWidth={2} />
                     </div>
                     <div className="space-y-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="text-xs font-bold font-mono text-[var(--text-muted)]">
-                          Hold #{res.id}
+                        <span className="text-[11px] font-bold font-mono text-[var(--text-muted)]">
+                          Hold #{String(res.id).slice(-6)}
                         </span>
                         {book?.genre && (
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--bg-secondary)] text-[var(--accent-indigo)]">
+                          <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-[var(--bg-secondary)] text-[var(--accent-emerald)] font-mono">
                             {book.genre}
                           </span>
                         )}
                         {/* Status Badge */}
                         <span
-                          className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
+                          className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                             isApproved
-                              ? 'bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)]'
+                              ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
                               : isPending
                               ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400'
                               : 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
                           }`}
                         >
-                          {isApproved && <CheckCircle2 className="w-3 h-3" />}
-                          {isPending && <Clock className="w-3 h-3" />}
-                          {isCancelled && <XCircle className="w-3 h-3" />}
+                          {isApproved && <CheckCircle2 className="w-3.5 h-3.5" />}
+                          {isPending && <Clock className="w-3.5 h-3.5" />}
+                          {isCancelled && <XCircle className="w-3.5 h-3.5" />}
                           <span className="capitalize">{res.status}</span>
                         </span>
                       </div>
 
                       <h4 className="text-base font-serif font-bold text-[var(--text-primary)]">
-                        {book?.title ?? `Book ID #${res.bookId}`}
+                        {book?.title ?? `Book #${res.bookId}`}
                       </h4>
                       <p className="text-xs text-[var(--text-muted)]">
                         {book?.author ? `by ${book.author}` : 'DLSL Library Catalog'}
                       </p>
 
                       <div className="flex flex-wrap items-center gap-4 text-xs text-[var(--text-secondary)] pt-1">
-                        <span className="inline-flex items-center gap-1">
-                          <Calendar className="w-3 h-3 text-[var(--text-muted)]" />
-                          <span>Reserved on {reservedDate}</span>
+                        <span className="inline-flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5 text-[var(--text-muted)]" />
+                          <span>Reserved: {reservedDate}</span>
                         </span>
                         {deadlineDate && (
-                          <span className="inline-flex items-center gap-1 font-medium text-[var(--accent-amber)]">
-                            <Clock className="w-3 h-3" />
+                          <span className="inline-flex items-center gap-1.5 font-medium text-[var(--accent-amber)]">
+                            <Clock className="w-3.5 h-3.5" />
                             <span>Pickup deadline: {deadlineDate}</span>
                           </span>
                         )}
@@ -330,13 +369,13 @@ export default function DashboardPage() {
                     </div>
                   </div>
 
-                  {/* Action Buttons */}
+                  {/* Actions */}
                   <div className="flex items-center gap-2.5 self-end md:self-center shrink-0 pt-2 md:pt-0">
                     <Link
                       to={`/books/${res.bookId}`}
-                      className="px-4 py-2 rounded-xl text-xs font-semibold border border-[var(--border-card)] bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--bg-card-hover)] transition flex items-center gap-1.5"
+                      className="px-3.5 py-2 rounded-xl text-xs font-semibold border border-[var(--border-card)] bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--border-card)] transition flex items-center gap-1.5"
                     >
-                      <span>Details</span>
+                      <span>Book Info</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
 
@@ -344,15 +383,12 @@ export default function DashboardPage() {
                       <button
                         type="button"
                         disabled={cancelMutation.isPending}
-                        onClick={() =>
-                          cancelMutation.mutate({
-                            reservationId: res.id,
-                          })
-                        }
-                        className="px-3.5 py-2 rounded-xl text-xs font-semibold text-rose-600 dark:text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 transition cursor-pointer disabled:opacity-50"
-                        title="Cancel this reservation hold"
+                        onClick={() => handleCancelClick(res.id, book?.title)}
+                        className="px-3.5 py-2 rounded-xl text-xs font-semibold text-rose-600 dark:text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                        title="Cancel this hold"
                       >
-                        {cancelMutation.isPending ? 'Cancelling...' : 'Cancel'}
+                        <Trash2 className="w-3.5 h-3.5" />
+                        <span>Cancel Hold</span>
                       </button>
                     )}
                   </div>
@@ -362,52 +398,6 @@ export default function DashboardPage() {
           </div>
         )}
       </section>
-
-      {/* ── Quick Actions & Session Info ── */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Quick Actions */}
-        <div className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs space-y-4">
-          <h3 className="text-lg font-serif font-bold text-[var(--text-primary)]">Quick Actions</h3>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <button
-              onClick={() => navigate('/catalog')}
-              className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--accent-indigo)] px-4 py-2.5 text-xs font-semibold text-white transition-colors hover:opacity-90 cursor-pointer"
-            >
-              <Compass className="w-4 h-4" />
-              <span>Browse Catalog</span>
-            </button>
-            <button
-              onClick={() => navigate('/')}
-              className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-[var(--border-card)] bg-[var(--bg-secondary)] px-4 py-2.5 text-xs font-semibold text-[var(--text-primary)] transition-colors hover:bg-[var(--bg-card-hover)] cursor-pointer"
-            >
-              <Home className="w-4 h-4" />
-              <span>Back to Home</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Session Info */}
-        <div className="rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs space-y-4">
-          <h3 className="text-lg font-serif font-bold text-[var(--text-primary)]">Session Credentials</h3>
-          <div className="rounded-xl bg-[var(--bg-secondary)] p-3.5 text-xs text-[var(--text-secondary)] flex flex-col gap-2.5">
-            <div className="flex items-center justify-between">
-              <span className="font-medium text-[var(--text-primary)]">Auth Status</span>
-              <div className="flex items-center gap-1.5">
-                <span className={`inline-block w-2 h-2 rounded-full ${token ? 'bg-[var(--accent-emerald)]' : 'bg-[var(--accent-amber)]'}`} />
-                <span className="font-semibold">{token ? 'Authenticated' : 'No active session'}</span>
-              </div>
-            </div>
-            {token && (
-              <div className="flex items-center justify-between pt-2 border-t border-[var(--border-card)]">
-                <span className="font-medium text-[var(--text-primary)]">Token</span>
-                <span className="font-mono text-[11px] text-[var(--text-muted)] bg-[var(--bg-card)] px-2 py-0.5 rounded border border-[var(--border-card)]">
-                  {token}
-                </span>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

@@ -2,65 +2,67 @@
 /* ── CSS Variables & Reset ────────────────────────────── */
 
 :root {
-  --bg-primary: #faf6f0;
-  --bg-secondary: #f3ede2;
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
   --bg-card: #ffffff;
-  --bg-card-hover: #faf7f2;
-  --border-card: rgba(140, 98, 57, 0.15);
-  --border-card-hover: rgba(140, 98, 57, 0.35);
+  --bg-card-hover: #f8fafc;
+  --border-card: rgba(15, 23, 42, 0.08);
+  --border-card-hover: rgba(5, 150, 105, 0.28);
 
-  --text-primary: #3d3025;
-  --text-secondary: #665544;
-  --text-muted: #8f7d6b;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
 
-  --accent-violet: #8c6239;
-  --accent-indigo: #6f4e37;
-  --accent-emerald: #4e7055;
-  --accent-amber: #b8860b;
-  --accent-rose: #a35252;
-  --accent-sky: #6d8c9c;
+  --accent-indigo: #006039; /* Official DLSL Forest Emerald */
+  --accent-indigo-hover: #004d2e;
+  --accent-emerald: #059669;
+  --accent-amber: #d97706; /* Academic Gold */
+  --accent-sky: #0284c7;
+  --accent-violet: #6366f1;
+  --accent-rose: #e11d48;
 
-  --gradient-hero: linear-gradient(135deg, #4e3629 0%, #2f1f17 100%);
-  --gradient-card: linear-gradient(145deg, rgba(140, 98, 57, 0.05) 0%, rgba(111, 78, 55, 0.02) 100%);
+  --gradient-hero: linear-gradient(135deg, #004d2e 0%, #002e1c 100%);
+  --gradient-card: linear-gradient(145deg, rgba(5, 150, 105, 0.04) 0%, rgba(15, 23, 42, 0.01) 100%);
 
-  --shadow-sm: 0 2px 8px rgba(61, 48, 37, 0.06);
-  --shadow-md: 0 8px 24px rgba(61, 48, 37, 0.1);
-  --shadow-glow: 0 0 25px rgba(140, 98, 57, 0.12);
+  --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 6px 20px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -2px rgba(15, 23, 42, 0.04);
+  --shadow-glow: 0 0 25px rgba(5, 150, 105, 0.15);
 
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 24px;
 
-  --font-body: 'Outfit', 'Inter', 'Segoe UI', system-ui, sans-serif;
-  --font-serif: 'Fraunces', 'Playfair Display', Georgia, serif;
+  --font-body: 'Outfit', 'Inter', system-ui, sans-serif;
+  --font-serif: 'Fraunces', Georgia, serif;
 }
 
 html.dark,
 .dark {
-  --bg-primary: #120c08;
-  --bg-secondary: #1a120d;
-  --bg-card: #221812;
-  --bg-card-hover: #2a1e17;
-  --border-card: rgba(222, 195, 171, 0.12);
-  --border-card-hover: rgba(222, 195, 171, 0.28);
+  --bg-primary: #080c14;
+  --bg-secondary: #0f172a;
+  --bg-card: #131d2e;
+  --bg-card-hover: #1b263b;
+  --border-card: rgba(255, 255, 255, 0.08);
+  --border-card-hover: rgba(52, 211, 153, 0.3);
 
-  --text-primary: #f6eedf;
-  --text-secondary: #e3d5c5;
-  --text-muted: #bda997;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
 
-  --accent-violet: #cda884;
-  --accent-indigo: #e6b990;
-  --accent-emerald: #87a990;
-  --accent-amber: #e6b64d;
-  --accent-rose: #d67a7a;
-  --accent-sky: #89a7be;
+  --accent-indigo: #10b981; /* Glowing emerald in dark mode */
+  --accent-indigo-hover: #059669;
+  --accent-emerald: #34d399;
+  --accent-amber: #fbbf24;
+  --accent-sky: #38bdf8;
+  --accent-violet: #818cf8;
+  --accent-rose: #f43f5e;
 
-  --gradient-hero: linear-gradient(135deg, #221812 0%, #120c08 100%);
-  --gradient-card: linear-gradient(145deg, rgba(222, 195, 171, 0.04) 0%, rgba(222, 195, 171, 0.01) 100%);
+  --gradient-hero: linear-gradient(135deg, #06281a 0%, #080c14 100%);
+  --gradient-card: linear-gradient(145deg, rgba(16, 185, 129, 0.05) 0%, rgba(19, 29, 46, 0.02) 100%);
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
-  --shadow-glow: 0 0 25px rgba(205, 168, 132, 0.08);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px -2px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 30px rgba(16, 185, 129, 0.12);
 }
 
 
@@ -1127,13 +1129,23 @@ body {
   .drawer-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(43, 34, 26, 0.4);
+    background: rgba(15, 23, 42, 0.45);
     backdrop-filter: blur(4px);
     z-index: 999;
   }
 }
 
+.catalog-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
 
-
-
-
+@media (min-width: 768px) {
+  .catalog-layout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+}

@@ -1,20 +1,27 @@
 import { Link } from 'react-router-dom';
-import { Compass } from 'lucide-react';
+import { Compass, ArrowLeft } from 'lucide-react';
 
 export default function NotFoundPage() {
   return (
-    <div className="flex w-full max-w-xl mx-auto flex-col items-center justify-center rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] px-6 py-16 text-center shadow-xs">
-      <Compass className="w-12 h-12 text-[var(--accent-indigo)] mb-4" strokeWidth={1.5} />
-      <h1 className="mb-2 text-7xl font-bold tracking-tight text-[var(--text-primary)] opacity-10">404</h1>
-      <h2 className="text-3xl font-serif italic text-[var(--text-primary)]">Page not found</h2>
-      <p className="mt-4 mb-8 max-w-md text-[var(--text-secondary)]">
-        The URL you tried does not exist. Please return to a valid page.
+    <div className="flex w-full max-w-lg mx-auto flex-col items-center justify-center rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] px-8 py-16 text-center shadow-sm my-8 space-y-4">
+      <div className="w-16 h-16 rounded-2xl bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] flex items-center justify-center mb-2">
+        <Compass className="w-8 h-8" strokeWidth={1.75} />
+      </div>
+      <span className="text-6xl font-bold font-mono tracking-tight text-[var(--accent-emerald)] opacity-20">
+        404
+      </span>
+      <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[var(--text-primary)]">
+        Page Not Found
+      </h2>
+      <p className="max-w-sm text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">
+        The requested library page does not exist or may have been moved. Return to the homepage to navigate the catalog.
       </p>
       <Link
         to="/"
-        className="rounded-full bg-[var(--text-primary)] px-8 py-3 text-sm font-medium text-[var(--bg-card)] transition-transform hover:scale-105 active:scale-95"
+        className="mt-4 inline-flex items-center gap-2 rounded-full bg-[var(--accent-indigo)] hover:bg-[var(--accent-indigo-hover)] px-6 py-2.5 text-xs font-semibold text-white shadow-sm transition-all"
       >
-        Go Home
+        <ArrowLeft className="w-3.5 h-3.5" />
+        <span>Return to Home</span>
       </Link>
     </div>
   );

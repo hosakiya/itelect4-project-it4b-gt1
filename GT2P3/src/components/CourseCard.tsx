@@ -1,4 +1,4 @@
-import { GraduationCap } from 'lucide-react';
+import { GraduationCap, BookOpenCheck } from 'lucide-react';
 import type { Course } from '../types';
 
 interface CourseCardProps {
@@ -10,27 +10,33 @@ function CourseCard({ course, variant = 'default' }: CourseCardProps) {
   const compact = variant === 'compact';
 
   return (
-    <article className={`course-card p-4 transition-all duration-200 ${compact ? 'sm:p-3' : ''}`}>
-      <div className="flex items-center gap-3 mb-3">
-        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--bg-secondary)] text-[var(--accent-amber)] border border-[var(--border-card)] shrink-0">
-          <GraduationCap className="w-5 h-5" strokeWidth={1.75} />
+    <article className={`group rounded-2xl border border-[var(--border-card)] bg-[var(--bg-card)] p-4 sm:p-5 shadow-xs hover:border-[var(--accent-emerald)]/40 hover:shadow-md transition-all duration-200 ${compact ? 'p-3.5' : ''}`}>
+      <div className="flex items-start justify-between gap-3 mb-2.5">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+            <GraduationCap className="w-5 h-5" strokeWidth={2} />
+          </div>
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--accent-emerald)] font-mono">
+              Academic Track
+            </span>
+            <h4 className="text-base font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-emerald)] transition-colors leading-snug">
+              {course.title}
+            </h4>
+          </div>
         </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-[var(--text-muted)]">Course</p>
-          <h3 className="text-base font-bold text-[var(--text-primary)] truncate">{course.title}</h3>
-        </div>
-        <span className="inline-flex items-center px-2.5 py-0.5 text-xs font-semibold rounded-full bg-[rgba(184,134,11,0.12)] text-[var(--accent-amber)] font-mono">
+
+        <span className="inline-flex items-center px-2.5 py-1 text-xs font-bold rounded-lg bg-[var(--bg-secondary)] text-[var(--accent-emerald)] border border-[var(--border-card)] font-mono shrink-0">
           {course.code}
         </span>
       </div>
 
-      <div className="flex flex-col gap-3">
-        <p className="text-sm font-semibold text-[var(--text-secondary)] pl-[3.25rem]">{course.semester}</p>
-        {!compact && (
-          <div className="border-dashed border rounded-md border-[var(--border-card)] bg-[var(--bg-secondary)] p-2.5 text-xs text-[var(--text-muted)] ml-[3.25rem]">
-            Enrolled learners can review progress in one place.
-          </div>
-        )}
+      <div className="flex items-center justify-between pt-3 mt-2 border-t border-[var(--border-card)] text-xs text-[var(--text-secondary)]">
+        <span className="font-medium">{course.semester}</span>
+        <span className="inline-flex items-center gap-1 text-[var(--text-muted)]">
+          <BookOpenCheck className="w-3.5 h-3.5 text-[var(--accent-emerald)]" />
+          <span>Curriculum Active</span>
+        </span>
       </div>
     </article>
   );
