@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink, Link, Outlet } from 'react-router-dom';
-import { BookOpen, Moon, Sun, Menu, X, LogIn, UserPlus, LogOut, Compass, LayoutDashboard, BookmarkCheck } from 'lucide-react';
+import { BookOpen, Moon, Sun, Menu, X, LogIn, UserPlus, LogOut, Compass, LayoutDashboard, BookmarkCheck, Sparkles } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
 
@@ -75,6 +75,10 @@ export default function Layout() {
             <NavLink to="/dashboard" className={getNavLinkClass}>
               <LayoutDashboard className="w-3.5 h-3.5" />
               <span>Dashboard</span>
+            </NavLink>
+            <NavLink to="/review" className={getNavLinkClass}>
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>AI Review</span>
             </NavLink>
           </nav>
 
@@ -194,6 +198,21 @@ export default function Layout() {
               >
                 <LayoutDashboard className="w-4 h-4" />
                 <span>Dashboard</span>
+              </NavLink>
+
+              <NavLink
+                to="/review"
+                onClick={handleNavClick}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition ${
+                    isActive
+                      ? 'bg-[var(--accent-indigo)] text-white'
+                      : 'text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]'
+                  }`
+                }
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>AI Review</span>
               </NavLink>
             </nav>
 

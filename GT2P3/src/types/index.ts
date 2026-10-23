@@ -119,3 +119,12 @@ export type BookSummary = Pick<Book, "id" | "title" | "author">;
 export type ReservationDraft = Omit<Reservation, "id" | "status">;
 export type UserUpdate = Partial<User>;
 export type ReservationLookup = Record<string | number, Reservation>;
+
+
+// ===== SESSION 11: what POST /api/ai sends back =======================
+export interface AiReview {
+  summary: string;
+  recommendations: string[];
+  guidance: string[];
+  readiness: "ready" | "almost" | "not-yet";
+}
