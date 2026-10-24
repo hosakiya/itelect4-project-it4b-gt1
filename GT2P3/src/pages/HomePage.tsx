@@ -289,53 +289,31 @@ export default function HomePage() {
               Borrowing & Reservation Policies
             </h3>
             <p className="text-xs text-[var(--text-muted)] mt-0.5">
-              General guidelines for DLSL students and faculty
+              Quick reminders for using and borrowing from the LRC
             </p>
           </div>
 
-          <div className="space-y-4">
-            <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-card)]">
-              <div className="w-8 h-8 rounded-xl bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] flex items-center justify-center shrink-0 mt-0.5">
-                <Clock className="w-4 h-4" />
-              </div>
-              <div className="space-y-1">
-                <h4 className="text-sm font-bold text-[var(--text-primary)]">
-                  7-Day Loan Period
-                </h4>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                  General reference books can be checked out for up to 7 consecutive academic days. Renewals can be made once if no pending hold is active.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-card)]">
-              <div className="w-8 h-8 rounded-xl bg-[var(--accent-amber)]/10 text-[var(--accent-amber)] flex items-center justify-center shrink-0 mt-0.5">
-                <CheckCircle2 className="w-4 h-4" />
-              </div>
-              <div className="space-y-1">
-                <h4 className="text-sm font-bold text-[var(--text-primary)]">
-                  Scheduled Pickup Deadlines
-                </h4>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                  Reserved copies are held at the circulation desk until the confirmed pickup deadline date. Holds that lapse will be returned to circulation.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border-card)]">
-              <div className="w-8 h-8 rounded-xl bg-[var(--accent-sky)]/10 text-[var(--accent-sky)] flex items-center justify-center shrink-0 mt-0.5">
-                <ShieldCheck className="w-4 h-4" />
-              </div>
-              <div className="space-y-1">
-                <h4 className="text-sm font-bold text-[var(--text-primary)]">
-                  Verified Student ID Verification
-                </h4>
-                <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                  Please present your valid DLSL Student ID or Faculty Card upon claiming physical titles at the Main Library front desk.
-                </p>
-              </div>
-            </div>
-          </div>
+          <ul className="space-y-3 text-xs leading-relaxed text-[var(--text-secondary)]">
+            <li className="flex items-start gap-3 rounded-2xl border border-[var(--border-card)] bg-[var(--bg-secondary)] p-4">
+              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent-emerald)]" />
+              <span><strong className="text-[var(--text-primary)]">Bring and tap your school ID.</strong> Wear it inside the LRC and tap at the Library Monitoring System when entering.</span>
+            </li>
+            <li className="flex items-start gap-3 rounded-2xl border border-[var(--border-card)] bg-[var(--bg-secondary)] p-4">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent-emerald)]" />
+              <span><strong className="text-[var(--text-primary)]">Keep the LRC quiet and clean.</strong> Silence your phone, take calls outside the reading area, and leave your study space tidy.</span>
+            </li>
+            <li className="flex items-start gap-3 rounded-2xl border border-[var(--border-card)] bg-[var(--bg-secondary)] p-4">
+              <BookOpen className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent-emerald)]" />
+              <span><strong className="text-[var(--text-primary)]">Check the collection rules.</strong> General and fiction books are usually loaned for one week; general references may be limited to library or photocopy use.</span>
+            </li>
+            <li className="flex items-start gap-3 rounded-2xl border border-[var(--border-card)] bg-[var(--bg-secondary)] p-4">
+              <Clock className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent-emerald)]" />
+              <span><strong className="text-[var(--text-primary)]">Return materials on time.</strong> Handle books carefully and confirm the due date and any applicable fees with LRC staff.</span>
+            </li>
+          </ul>
+          <Link to="/guidelines" className="inline-flex items-center gap-2 rounded-full bg-[var(--accent-indigo)] px-5 py-2.5 text-xs font-semibold text-white transition hover:bg-[var(--accent-indigo-hover)]">
+            View all Rules & Guidelines <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
         </section>
       </div>
     </div>
