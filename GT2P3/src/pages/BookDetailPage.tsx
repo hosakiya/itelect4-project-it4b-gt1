@@ -176,7 +176,8 @@ export default function BookDetailPage() {
                 <span className="text-2xl font-serif font-extrabold text-[var(--text-primary)]">
                   {book.availableCopies}
                 </span>
-                <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">Copies in Stock</p>
+                <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">Available / total copies</p>
+                <p className="text-[10px] text-[var(--text-muted)]">of {book.totalCopies ?? book.availableCopies} copies</p>
               </div>
             </div>
           </div>

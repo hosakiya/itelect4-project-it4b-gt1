@@ -32,6 +32,7 @@ export interface Book {
     author: string;
     genre: string;
     availableCopies: number;
+    totalCopies?: number;
     description: string;
 }
 
