@@ -2,7 +2,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BookOpen, Mail, Lock, AlertCircle } from 'lucide-react';
+import { Mail, Lock, AlertCircle } from 'lucide-react';
 import useAuthStore from '../store/authStore';
 import { loginUser } from '../api/client';
 import { loginSchema, type LoginFormValues } from '../schemas/authSchema';
@@ -44,9 +44,7 @@ export default function LoginPage() {
         <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[var(--accent-emerald)] to-[var(--accent-indigo)]" />
 
         <div className="text-center mb-6">
-          <div className="w-13 h-13 rounded-2xl bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] flex items-center justify-center mx-auto mb-3 shadow-xs">
-            <BookOpen className="w-7 h-7" strokeWidth={2.2} />
-          </div>
+          <img src="/dlsl-logo.png" alt="De La Salle Lipa" className="w-13 h-[4.25rem] object-contain mx-auto mb-3" />
           <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--accent-emerald)] font-mono">
             De La Salle Lipa
           </span>

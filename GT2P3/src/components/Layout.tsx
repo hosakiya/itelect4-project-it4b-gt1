@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink, Link, Outlet } from 'react-router-dom';
-import { BookOpen, Moon, Sun, Menu, X, LogIn, UserPlus, LogOut, Compass, LayoutDashboard, BookmarkCheck, Sparkles } from 'lucide-react';
+import { Moon, Sun, Menu, X, LogIn, UserPlus, LogOut, Compass, LayoutDashboard, BookmarkCheck, Sparkles } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useThemeStore } from '../store/themeStore';
 
@@ -46,9 +46,11 @@ export default function Layout() {
             onClick={handleNavClick}
             className="flex items-center gap-3.5 group focus:outline-hidden"
           >
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[var(--accent-emerald)] to-[var(--accent-indigo)] text-white flex items-center justify-center shadow-md shadow-[var(--accent-emerald)]/20 transition-transform duration-200 group-hover:scale-105 shrink-0">
-              <BookOpen className="w-6 h-6" strokeWidth={2.2} />
-            </div>
+            <img
+              src="/dlsl-logo.png"
+              alt="De La Salle Lipa"
+              className="h-14 w-11 rounded-sm object-contain shadow-sm transition-transform duration-200 group-hover:scale-105 shrink-0"
+            />
             <div className="flex flex-col text-left">
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-emerald)]" />
@@ -275,9 +277,7 @@ export default function Layout() {
       <footer className="w-full bg-[var(--bg-secondary)] border-t border-[var(--border-card)] mt-auto py-10 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] flex items-center justify-center shrink-0">
-              <BookOpen className="w-5 h-5" strokeWidth={2} />
-            </div>
+            <img src="/dlsl-logo.png" alt="De La Salle Lipa" className="h-12 w-9 object-contain shrink-0" />
             <div>
               <p className="text-sm font-serif font-bold text-[var(--text-primary)]">
                 De La Salle Lipa • Campus Library
