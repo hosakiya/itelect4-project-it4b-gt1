@@ -42,6 +42,9 @@ export interface Reservation {
     status: ReservationStatus;
     reservedAt: Date | string;
     pickupDeadline?: Date | string | undefined;
+    quantity: number;
+    purpose: string;
+    borrowingPeriod: string;
 }
 
 export interface Review {
@@ -107,6 +110,8 @@ export type ApiReservation = Omit<
 export type CreateReservation = {
   bookId: string;
   pickupDeadline?: string;
+  quantity: number;
+  purpose: string;
 };
 
 export interface AuthReply {

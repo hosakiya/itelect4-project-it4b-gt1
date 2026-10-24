@@ -1,6 +1,6 @@
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { ArrowLeft, BookX, LogIn, BookOpen, Clock, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { ArrowLeft, BookX, LogIn, BookOpen, Clock, ShieldCheck, AlertTriangle, Printer, CheckCircle2 } from 'lucide-react';
 import { getBook, createReservation } from '../api/client';
 import useAuthStore from '../store/authStore';
 import { useForm } from 'react-hook-form';
@@ -9,6 +9,8 @@ import { reservationSchema, type ReservationFormValues } from '../schemas/reserv
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import type { Reservation } from '../types';
+import { useState } from 'react';
 
 export default function BookDetailPage() {
   const { bookId } = useParams<{ bookId: string }>();
@@ -16,6 +18,7 @@ export default function BookDetailPage() {
   const queryClient = useQueryClient();
   const token = useAuthStore((state) => state.token);
   const userName = useAuthStore((state) => state.userName);
+  const [receipt, setReceipt] = useState<Reservation | null>(null);
 
   const { data: book, isLoading, isError } = useQuery({
     queryKey: ['book', bookId],
@@ -24,7 +27,7 @@ export default function BookDetailPage() {
   });
 
   const reservationMutation = useMutation({
-    mutationFn: (data: { pickupDeadline: string }) => {
+    mutationFn: (data: { pickupDeadline: string; quantity: number; purpose: string }) => {
       let deadlineIso: string | undefined = undefined;
       if (data.pickupDeadline) {
         const d = new Date(data.pickupDeadline);
@@ -35,14 +38,14 @@ export default function BookDetailPage() {
       return createReservation({
         bookId: String(bookId),
         pickupDeadline: deadlineIso,
+        quantity: data.quantity,
+        purpose: data.purpose,
       });
     },
-    onSuccess: () => {
+    onSuccess: (createdReservation) => {
       queryClient.invalidateQueries({ queryKey: ['reservations'] });
       queryClient.invalidateQueries({ queryKey: ['books'] });
-      reset();
-      alert("Reservation request submitted successfully! Check your Dashboard to track status.");
-      navigate('/dashboard');
+      setReceipt(createdReservation);
     },
     onError: (err: any) => {
       alert(err?.message || "Failed to submit reservation.");
@@ -52,12 +55,13 @@ export default function BookDetailPage() {
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<ReservationFormValues>({
     resolver: zodResolver(reservationSchema),
     defaultValues: {
       pickupDeadline: '',
+      quantity: 1,
+      purpose: '',
       agreeToTerms: false,
     },
   });
@@ -65,6 +69,8 @@ export default function BookDetailPage() {
   const onSubmit = (data: ReservationFormValues) => {
     reservationMutation.mutate({
       pickupDeadline: data.pickupDeadline,
+      quantity: data.quantity,
+      purpose: data.purpose,
     });
   };
 
@@ -175,8 +181,8 @@ export default function BookDetailPage() {
               <div className="flex items-start gap-2.5 p-3 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-card)]">
                 <Clock className="w-4 h-4 text-[var(--accent-emerald)] shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-bold text-[var(--text-primary)]">7-Day Maximum Loan</p>
-                  <p className="text-[11px] text-[var(--text-muted)] mt-0.5">Renewable once online via Dashboard.</p>
+                  <p className="font-bold text-[var(--text-primary)]">Collection-Specific Loan</p>
+                  <p className="text-[11px] text-[var(--text-muted)] mt-0.5">The LRC confirms your loan period at checkout.</p>
                 </div>
               </div>
               <div className="flex items-start gap-2.5 p-3 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border-card)]">
@@ -225,11 +231,44 @@ export default function BookDetailPage() {
                   <span>Log In to Reserve</span>
                 </Link>
               </div>
+            ) : receipt ? (
+              <div className="space-y-4" aria-live="polite">
+                <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+                  <CheckCircle2 className="w-5 h-5" />
+                  <h3 className="font-bold">Reservation receipt generated</h3>
+                </div>
+                <p className="text-xs text-[var(--text-muted)]">Receipt #{String(receipt.id).slice(-8)} · This confirms your request. The loan period begins when the LRC checks the copy out to you.</p>
+                <dl className="space-y-3 rounded-2xl bg-[var(--bg-secondary)] p-4 text-xs">
+                  <div><dt className="text-[var(--text-muted)]">Book reserved</dt><dd className="font-semibold text-[var(--text-primary)]">{book.title}</dd></div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div><dt className="text-[var(--text-muted)]">Borrowing period</dt><dd className="font-semibold">{receipt.borrowingPeriod}</dd></div>
+                    <div><dt className="text-[var(--text-muted)]">Copies requested</dt><dd className="font-semibold">{receipt.quantity}</dd></div>
+                  </div>
+                  <div><dt className="text-[var(--text-muted)]">Time borrowed / reserved</dt><dd className="font-semibold">{new Date(receipt.reservedAt).toLocaleString()}</dd></div>
+                  <div><dt className="text-[var(--text-muted)]">Purpose</dt><dd className="font-medium whitespace-pre-wrap">{receipt.purpose}</dd></div>
+                </dl>
+                <div className="flex gap-2">
+                  <Button type="button" variant="outline" className="flex-1" onClick={() => window.print()}><Printer className="w-4 h-4 mr-2" />Print receipt</Button>
+                  <Button type="button" className="flex-1" onClick={() => navigate('/dashboard')}>Dashboard</Button>
+                </div>
+              </div>
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <div className="rounded-2xl bg-[var(--bg-secondary)] p-3.5 text-xs text-[var(--text-secondary)] border border-[var(--border-card)] flex items-center justify-between">
                   <span>Reserving as:</span>
                   <span className="font-bold text-[var(--accent-emerald)]">{userName || 'Member'}</span>
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="quantity" className="text-xs font-semibold text-[var(--text-primary)]">Number of copies</Label>
+                  <Input id="quantity" type="number" min={1} max={Math.min(3, book.availableCopies)} className="w-full bg-[var(--bg-secondary)] text-sm rounded-xl" {...register('quantity', { valueAsNumber: true })} />
+                  {errors.quantity && <p className="text-xs text-rose-500 font-medium">Choose 1 to {Math.min(3, book.availableCopies)} available copies.</p>}
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label htmlFor="purpose" className="text-xs font-semibold text-[var(--text-primary)]">Purpose of borrowing</Label>
+                  <textarea id="purpose" rows={4} maxLength={1000} placeholder="Write a few sentences explaining how you plan to use this book." className="w-full resize-y rounded-xl border border-[var(--border-card)] bg-[var(--bg-secondary)] px-3 py-2.5 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-indigo)]" {...register('purpose')} />
+                  {errors.purpose && <p className="text-xs text-rose-500 font-medium">{errors.purpose.message}</p>}
                 </div>
 
                 <div className="space-y-1.5">
@@ -276,6 +315,7 @@ export default function BookDetailPage() {
             )}
           </div>
         </div>
+            <Link to="/guidelines" className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--accent-emerald)] hover:underline">View all LRC rules and borrowing policies <ArrowLeft className="h-3.5 w-3.5 rotate-180" /></Link>
       </div>
     </div>
   );

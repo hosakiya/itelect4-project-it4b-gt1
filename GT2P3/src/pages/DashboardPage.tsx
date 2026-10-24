@@ -366,6 +366,10 @@ export default function DashboardPage() {
                           </span>
                         )}
                       </div>
+                      <div className="mt-3 rounded-xl bg-[var(--bg-secondary)] p-3 text-xs text-[var(--text-secondary)]">
+                        <p><span className="font-semibold text-[var(--text-primary)]">Receipt:</span> {res.quantity ?? 1} copy/copies · {res.borrowingPeriod || 'Confirm with LRC at checkout'}</p>
+                        {res.purpose && <p className="mt-1"><span className="font-semibold text-[var(--text-primary)]">Purpose:</span> {res.purpose}</p>}
+                      </div>
                     </div>
                   </div>
 

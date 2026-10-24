@@ -1,8 +1,8 @@
 import { useMemo, useState, useEffect } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { AlertCircle, Search, X, ArrowRight, SlidersHorizontal } from 'lucide-react';
-import { createReservation, getBooks } from '../api/client';
+import { getBooks } from '../api/client';
 import { useUiStore } from '../store/uiStore';
 import { useAuthStore } from '../store/authStore';
 
@@ -16,7 +16,6 @@ export default function CatalogPage() {
   const [mobileGenreOpen, setMobileGenreOpen] = useState(false);
   const selectedGenre = useUiStore((state) => state.selectedGenre);
   const setSelectedGenre = useUiStore((state) => state.setSelectedGenre);
-  const queryClient = useQueryClient();
 
   // Sync if URL query param changes
   useEffect(() => {
@@ -30,28 +29,13 @@ export default function CatalogPage() {
     queryFn: getBooks,
   });
 
-  const reservationMutation = useMutation({
-    mutationFn: (bookId: number | string) =>
-      createReservation({
-        bookId: String(bookId),
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reservations'] });
-      queryClient.invalidateQueries({ queryKey: ['books'] });
-      alert('Reservation requested successfully! You can track it in your Dashboard.');
-    },
-    onError: (err: any) => {
-      alert(err?.message || 'Failed to submit reservation.');
-    },
-  });
-
   const handleReserve = (bookId: number | string) => {
     if (!token) {
       alert('Please log in first to reserve this volume.');
       navigate('/login');
       return;
     }
-    reservationMutation.mutate(bookId);
+    navigate(`/books/${bookId}`);
   };
 
   const genres = useMemo(
@@ -332,7 +316,7 @@ export default function CatalogPage() {
                     <div className="pt-5 mt-5 border-t border-[var(--border-card)] flex items-center justify-between gap-3">
                       <button
                         type="button"
-                        disabled={!isAvailable || reservationMutation.isPending}
+                        disabled={!isAvailable}
                         onClick={() => handleReserve(book.id)}
                         className={`flex-1 py-2.5 px-3 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer shadow-xs ${
                           isAvailable
@@ -340,7 +324,7 @@ export default function CatalogPage() {
                             : 'bg-[var(--bg-secondary)] text-[var(--text-muted)] cursor-not-allowed opacity-60'
                         }`}
                       >
-                        {reservationMutation.isPending ? 'Reserving...' : isAvailable ? 'Reserve' : 'Unavailable'}
+                        {isAvailable ? 'Reserve' : 'Unavailable'}
                       </button>
                       <Link
                         to={`/books/${book.id}`}

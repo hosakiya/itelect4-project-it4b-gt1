@@ -299,6 +299,7 @@ export default function Layout() {
               </span>{' '}
               (IT4B)
             </p>
+            <Link to="/guidelines" className="font-semibold hover:text-[var(--accent-emerald)] transition-colors">LRC Rules & Guidelines</Link>
           </div>
         </div>
       </footer>

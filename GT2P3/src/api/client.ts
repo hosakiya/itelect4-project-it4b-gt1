@@ -80,6 +80,9 @@ function toReservation(value: ApiReservation): Reservation {
     status: value.status,
     reservedAt: value.reservedAt ? new Date(value.reservedAt) : new Date(),
     pickupDeadline: value.pickupDeadline ? new Date(value.pickupDeadline) : undefined,
+    quantity: value.quantity ?? 1,
+    purpose: value.purpose ?? '',
+    borrowingPeriod: value.borrowingPeriod ?? 'Confirm with LRC at checkout',
   };
 }
 

@@ -10,6 +10,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ReviewPage from './pages/ReviewPage';
 import NotFoundPage from './pages/NotFoundPage';
+import GuidelinesPage from './pages/GuidelinesPage';
 import { useThemeStore } from './store/themeStore';
 import './App.css';
 
@@ -29,6 +30,7 @@ function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/catalog" element={<CatalogPage />} />
+        <Route path="/guidelines" element={<GuidelinesPage />} />
         <Route path="/books/:bookId" element={<BookDetailPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
