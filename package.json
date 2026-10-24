@@ -4,7 +4,7 @@
   "description": "This project models a simple book reservation app for a campus library. It includes users, books, reservations, and review notes, with a multi-step reservation lifecycle that fits a semester-long TypeScript assignment.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run test --prefix GT2P3",
     "dev": "concurrently -k \"npm run dev --prefix GT2P3\" \"npm run dev --prefix ..\\it-elect-backend\"",
     "build": "npm run build --prefix GT2P3 && node -e \"require('fs').cpSync('GT2P3/dist', 'dist', {recursive: true})\""
   },
