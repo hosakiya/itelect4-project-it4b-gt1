@@ -103,7 +103,7 @@ export default function HomePage() {
           {/* Hero Headline */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[var(--text-primary)] leading-[1.15] tracking-tight">
             Knowledge Within Reach. <br className="hidden sm:inline" />
-            <span className="text-[var(--accent-emerald)]">Reserve, Borrow & Learn.</span>
+            <span className="text-[var(--accent-emerald)]">Be near. Go far.</span>
           </h2>
 
           <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed max-w-2xl">
