@@ -56,7 +56,7 @@ export default function HomePage() {
       <div className="flex flex-col items-center justify-center py-28 gap-4">
         <div className="w-12 h-12 border-3 border-[var(--border-card)] border-t-[var(--accent-emerald)] rounded-full animate-spin" />
         <p className="text-sm font-medium text-[var(--text-muted)] tracking-wide">
-          Connecting to campus library repository...
+          Connecting to the Learning Resource Center...
         </p>
       </div>
     );

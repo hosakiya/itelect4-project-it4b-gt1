@@ -59,7 +59,7 @@ export default function Layout() {
                 </span>
               </div>
               <h1 className="text-xl sm:text-2xl font-serif font-bold tracking-tight text-[var(--text-primary)] leading-tight group-hover:text-[var(--accent-emerald)] transition-colors">
-                Campus Library
+                Learning Resource Center
               </h1>
             </div>
           </Link>
@@ -280,7 +280,7 @@ export default function Layout() {
             <img src="/dlsl-logo.png" alt="De La Salle Lipa" className="h-12 w-9 object-contain shrink-0" />
             <div>
               <p className="text-sm font-serif font-bold text-[var(--text-primary)]">
-                De La Salle Lipa • Campus Library
+                De La Salle Lipa • Learning Resource Center
               </p>
               <p className="text-xs text-[var(--text-muted)] mt-0.5">
                 Academic Resource & Book Reservation Management System
