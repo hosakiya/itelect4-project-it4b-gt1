@@ -93,6 +93,12 @@ export default function HomePage() {
     <div className="w-full space-y-12">
       {/* ── Institutional Hero Section ── */}
       <section className="relative overflow-hidden rounded-3xl border border-[var(--border-card)] bg-gradient-to-br from-[var(--bg-card)] via-[var(--bg-secondary)]/60 to-[var(--bg-card)] p-8 sm:p-12 lg:p-16 shadow-sm transition-all">
+        <img
+          src="/lrc-interior.jpg"
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-[0.12]"
+        />
         <div className="relative z-10 max-w-3xl space-y-6">
           {/* Institution Header Eyebrow */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--accent-emerald)]/10 text-[var(--accent-emerald)] border border-[var(--accent-emerald)]/20 text-xs font-bold uppercase tracking-widest font-mono">
