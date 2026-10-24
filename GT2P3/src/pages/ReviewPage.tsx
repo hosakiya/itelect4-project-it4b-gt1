@@ -50,7 +50,7 @@ export default function ReviewPage() {
             AI Library Advisor
           </span>
         </div>
-        <h2 className="text-3xl font-serif font-bold text-[var(--text-primary)]">
+        <h2 className="text-3xl font-serif font-extrabold text-[var(--text-primary)]">
           AI Book & Research Review
         </h2>
         <p className="mt-1 text-sm text-[var(--text-secondary)]">

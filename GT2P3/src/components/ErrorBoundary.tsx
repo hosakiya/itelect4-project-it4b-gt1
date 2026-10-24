@@ -44,7 +44,7 @@ export class ErrorBoundary extends Component<Props, State> {
             </div>
 
             <div className="space-y-2">
-              <h1 className="text-2xl font-serif font-bold text-[var(--text-primary,#0f172a)]">
+              <h1 className="text-2xl font-serif font-extrabold text-[var(--text-primary,#0f172a)]">
                 Something went wrong
               </h1>
               <p className="text-sm text-[var(--text-secondary,#64748b)]">

@@ -117,7 +117,7 @@ export default function DashboardPage() {
             <Sparkles className="w-3.5 h-3.5" />
             <span>Student Registry Portal</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-serif font-extrabold text-[var(--text-primary)] tracking-tight">
             Personal Dashboard
           </h2>
           <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-0.5">
@@ -148,7 +148,7 @@ export default function DashboardPage() {
                 <BookOpen className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+            <div className="text-3xl sm:text-4xl font-serif font-extrabold text-[var(--text-primary)] tracking-tight">
               {activeReservations.length}
             </div>
           </div>
@@ -169,7 +169,7 @@ export default function DashboardPage() {
                 <Calendar className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-3xl sm:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+            <div className="text-3xl sm:text-4xl font-serif font-extrabold text-[var(--text-primary)] tracking-tight">
               {userReservations.length}
             </div>
           </div>
@@ -189,7 +189,7 @@ export default function DashboardPage() {
                 <ShieldCheck className="w-4 h-4" />
               </div>
             </div>
-            <div className="text-xl sm:text-2xl font-serif font-bold text-[var(--text-primary)] tracking-tight mt-1">
+            <div className="text-xl sm:text-2xl font-serif font-extrabold text-[var(--text-primary)] tracking-tight mt-1">
               Active Learner
             </div>
           </div>
@@ -204,7 +204,7 @@ export default function DashboardPage() {
       <section className="rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 sm:p-8 shadow-xs space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-card)] pb-4">
           <div>
-            <h3 className="text-xl font-serif font-bold text-[var(--text-primary)]">
+            <h3 className="text-xl font-serif font-extrabold text-[var(--text-primary)]">
               Your Book Holds & Requests
             </h3>
             <p className="text-xs text-[var(--text-muted)] mt-0.5">
@@ -254,7 +254,7 @@ export default function DashboardPage() {
         {!token ? (
           <div className="rounded-2xl border border-dashed border-[var(--border-card)] bg-[var(--bg-secondary)]/50 p-12 text-center space-y-3">
             <BookOpen className="w-10 h-10 text-[var(--text-muted)] mx-auto opacity-50" strokeWidth={1.5} />
-            <h4 className="text-base font-serif font-bold text-[var(--text-primary)]">
+            <h4 className="text-base font-serif font-extrabold text-[var(--text-primary)]">
               Authentication Required
             </h4>
             <p className="text-xs text-[var(--text-muted)] max-w-sm mx-auto">
@@ -271,7 +271,7 @@ export default function DashboardPage() {
         ) : displayedReservations.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-[var(--border-card)] bg-[var(--bg-secondary)]/50 p-12 text-center space-y-3">
             <BookOpen className="w-10 h-10 text-[var(--text-muted)] mx-auto opacity-50" strokeWidth={1.5} />
-            <h4 className="text-base font-serif font-bold text-[var(--text-primary)]">
+            <h4 className="text-base font-serif font-extrabold text-[var(--text-primary)]">
               No reservations in this filter
             </h4>
             <p className="text-xs text-[var(--text-muted)] max-w-sm mx-auto">
@@ -347,7 +347,7 @@ export default function DashboardPage() {
                         </span>
                       </div>
 
-                      <h4 className="text-base font-serif font-bold text-[var(--text-primary)]">
+                      <h4 className="text-base font-serif font-extrabold text-[var(--text-primary)]">
                         {book?.title ?? `Book #${res.bookId}`}
                       </h4>
                       <p className="text-xs text-[var(--text-muted)]">

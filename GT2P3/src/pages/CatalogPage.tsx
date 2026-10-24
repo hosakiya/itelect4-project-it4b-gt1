@@ -70,7 +70,7 @@ export default function CatalogPage() {
     return (
       <div className="rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-12 text-center max-w-lg mx-auto shadow-sm">
         <AlertCircle className="w-10 h-10 text-amber-500 mx-auto mb-3" />
-        <h3 className="text-xl font-serif font-bold text-[var(--text-primary)]">Unable to Load Catalog</h3>
+        <h3 className="text-xl font-serif font-extrabold text-[var(--text-primary)]">Unable to Load Catalog</h3>
         <p className="text-sm text-[var(--text-muted)] mt-1.5 leading-relaxed">
           Please check your internet connection or verify the backend service status.
         </p>
@@ -93,7 +93,7 @@ export default function CatalogPage() {
           <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--accent-emerald)] mb-1 font-mono">
             <span>Official Repository</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-serif font-extrabold text-[var(--text-primary)] tracking-tight">
             Library Catalog
           </h2>
           <p className="text-xs sm:text-sm text-[var(--text-muted)] mt-0.5">
@@ -199,7 +199,7 @@ export default function CatalogPage() {
             <aside className="fixed left-0 top-0 bottom-0 w-72 bg-[var(--bg-card)] border-r border-[var(--border-card)] p-6 z-50 overflow-y-auto md:hidden shadow-2xl animate-in slide-in-from-left duration-250">
               <div className="flex items-center justify-between pb-4 border-b border-[var(--border-card)] mb-4">
                 <div>
-                  <h3 className="text-sm font-serif font-bold text-[var(--text-primary)]">
+                  <h3 className="text-sm font-serif font-extrabold text-[var(--text-primary)]">
                     Filter by Genre
                   </h3>
                   <p className="text-[11px] text-[var(--text-muted)]">Select catalog category</p>
@@ -253,7 +253,7 @@ export default function CatalogPage() {
           {filteredBooks.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-[var(--border-card)] bg-[var(--bg-card)] p-12 text-center space-y-3">
               <Search className="w-12 h-12 text-[var(--text-muted)] mx-auto opacity-50" strokeWidth={1.5} />
-              <h3 className="text-lg font-serif font-bold text-[var(--text-primary)]">
+              <h3 className="text-lg font-serif font-extrabold text-[var(--text-primary)]">
                 No matching books found
               </h3>
               <p className="text-xs text-[var(--text-muted)] max-w-sm mx-auto">
@@ -302,7 +302,7 @@ export default function CatalogPage() {
                       </div>
 
                       {/* Book Title & Author */}
-                      <h3 className="text-lg font-serif font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-emerald)] transition-colors line-clamp-1">
+                      <h3 className="text-lg font-serif font-extrabold text-[var(--text-primary)] group-hover:text-[var(--accent-emerald)] transition-colors line-clamp-1">
                         {book.title}
                       </h3>
                       <p className="text-xs text-[var(--text-muted)] font-medium mt-0.5 mb-3">

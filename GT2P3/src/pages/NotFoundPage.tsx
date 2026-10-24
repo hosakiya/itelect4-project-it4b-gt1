@@ -11,7 +11,7 @@ export default function NotFoundPage() {
         <span className="text-6xl font-bold font-mono tracking-tight text-[var(--accent-emerald)] opacity-20">
           404
         </span>
-        <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[var(--text-primary)]">
+        <h2 className="text-2xl sm:text-3xl font-serif font-extrabold text-[var(--text-primary)]">
           Page Not Found
         </h2>
         <p className="max-w-sm text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed">

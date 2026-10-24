@@ -107,7 +107,7 @@ export default function HomePage() {
           </div>
 
           {/* Hero Headline */}
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[var(--text-primary)] leading-[1.15] tracking-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-extrabold text-[var(--text-primary)] leading-[1.15] tracking-tight">
             Knowledge Within Reach. <br className="hidden sm:inline" />
             <span className="text-[var(--accent-emerald)]">Be near. Go far.</span>
           </h2>
@@ -175,7 +175,7 @@ export default function HomePage() {
                   <IconComponent className="w-5 h-5" />
                 </div>
               </div>
-              <div className="text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight">
+              <div className="text-4xl font-serif font-extrabold text-[var(--text-primary)] tracking-tight">
                 {card.value}
               </div>
               <p className="mt-2 text-xs font-medium text-[var(--text-secondary)]">
@@ -194,7 +194,7 @@ export default function HomePage() {
               <Sparkles className="w-3.5 h-3.5" />
               <span>Recommended Reading</span>
             </div>
-            <h3 className="text-2xl font-serif font-bold text-[var(--text-primary)]">
+            <h3 className="text-2xl font-serif font-extrabold text-[var(--text-primary)]">
               Featured Library Volumes
             </h3>
           </div>
@@ -232,7 +232,7 @@ export default function HomePage() {
                     </span>
                   </div>
 
-                  <h4 className="text-lg font-serif font-bold text-[var(--text-primary)] group-hover:text-[var(--accent-emerald)] transition-colors line-clamp-1">
+                  <h4 className="text-lg font-serif font-extrabold text-[var(--text-primary)] group-hover:text-[var(--accent-emerald)] transition-colors line-clamp-1">
                     {book.title}
                   </h4>
                   <p className="text-xs text-[var(--text-muted)] font-medium mt-0.5 mb-3">
@@ -263,7 +263,7 @@ export default function HomePage() {
         <section className="rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 sm:p-8 shadow-xs space-y-5">
           <div className="flex items-center justify-between border-b border-[var(--border-card)] pb-4">
             <div>
-              <h3 className="text-xl font-serif font-bold text-[var(--text-primary)]">
+              <h3 className="text-xl font-serif font-extrabold text-[var(--text-primary)]">
                 Affiliated Academic Tracks
               </h3>
               <p className="text-xs text-[var(--text-muted)] mt-0.5">
@@ -291,7 +291,7 @@ export default function HomePage() {
         {/* Library Guidelines & Resource Policies */}
         <section className="rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 sm:p-8 shadow-xs space-y-5">
           <div className="border-b border-[var(--border-card)] pb-4">
-            <h3 className="text-xl font-serif font-bold text-[var(--text-primary)]">
+            <h3 className="text-xl font-serif font-extrabold text-[var(--text-primary)]">
               Borrowing & Reservation Policies
             </h3>
             <p className="text-xs text-[var(--text-muted)] mt-0.5">

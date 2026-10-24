@@ -37,14 +37,14 @@ export default function GuidelinesPage() {
           <ShieldCheck className="h-7 w-7" />
           <span className="text-xs font-bold uppercase tracking-widest">Student guide</span>
         </div>
-        <h1 className="text-3xl font-serif font-bold sm:text-4xl">DLSL Learning Resource Center</h1>
+        <h1 className="text-3xl font-serif font-extrabold sm:text-4xl">DLSL Learning Resource Center</h1>
         <p className="mt-3 max-w-3xl text-sm leading-6 text-[var(--text-secondary)]">
           Rules for borrowing books, using library resources, and keeping the LRC a quiet, clean place to study. Policies can vary by collection and patron type; confirm your loan period and eligibility with LRC staff.
         </p>
       </header>
 
       <section className="rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 sm:p-8">
-        <h2 className="mb-5 flex items-center gap-2 text-xl font-serif font-bold"><BookOpenCheck className="h-5 w-5 text-[var(--accent-emerald)]" />General library rules</h2>
+        <h2 className="mb-5 flex items-center gap-2 text-xl font-serif font-extrabold"><BookOpenCheck className="h-5 w-5 text-[var(--accent-emerald)]" />General library rules</h2>
         <ol className="grid gap-3 sm:grid-cols-2">
           {[
             'Wear your valid school ID while inside the LRC and tap it at the Library Monitoring System when entering.',
@@ -65,7 +65,7 @@ export default function GuidelinesPage() {
       </section>
 
       <section className="rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 sm:p-8">
-        <h2 className="mb-2 text-xl font-serif font-bold">Book borrowing rules</h2>
+        <h2 className="mb-2 text-xl font-serif font-extrabold">Book borrowing rules</h2>
         <p className="mb-5 text-sm text-[var(--text-secondary)]">Loan duration and limits depend on the material type and your classification.</p>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[640px] border-collapse text-left text-sm">
@@ -76,7 +76,7 @@ export default function GuidelinesPage() {
       </section>
 
       <section className="rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 sm:p-8">
-        <h2 className="mb-5 text-xl font-serif font-bold">Fines and penalties</h2>
+        <h2 className="mb-5 text-xl font-serif font-extrabold">Fines and penalties</h2>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[560px] border-collapse text-left text-sm">
             <thead><tr className="border-b border-[var(--border-card)]"><th className="p-3">Violation or issue</th><th className="p-3">Published policy</th></tr></thead>
@@ -86,7 +86,7 @@ export default function GuidelinesPage() {
       </section>
 
       <section className="rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 sm:p-8">
-        <h2 className="mb-3 text-xl font-serif font-bold">Handling library books</h2>
+        <h2 className="mb-3 text-xl font-serif font-extrabold">Handling library books</h2>
         <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-[var(--text-secondary)]">
           <li>Handle books carefully. Do not write in, highlight, tear, or otherwise damage library materials.</li>
           <li>Return borrowed items on or before their due date.</li>

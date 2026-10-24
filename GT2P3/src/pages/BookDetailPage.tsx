@@ -96,7 +96,7 @@ export default function BookDetailPage() {
     return (
       <div className="w-full max-w-lg mx-auto rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-10 text-center shadow-sm space-y-4">
         <BookX className="w-12 h-12 text-[var(--accent-emerald)] mx-auto opacity-70" strokeWidth={1.5} />
-        <h2 className="text-2xl font-serif font-bold text-[var(--text-primary)]">Volume Not Found</h2>
+        <h2 className="text-2xl font-serif font-extrabold text-[var(--text-primary)]">Volume Not Found</h2>
         <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
           The catalog volume you requested does not exist or may have been unlisted.
         </p>
@@ -139,7 +139,7 @@ export default function BookDetailPage() {
             </div>
 
             <div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[var(--text-primary)] tracking-tight leading-tight">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-extrabold text-[var(--text-primary)] tracking-tight leading-tight">
                 {book.title}
               </h1>
               <p className="mt-1.5 text-sm sm:text-base font-medium text-[var(--text-muted)]">
@@ -173,7 +173,7 @@ export default function BookDetailPage() {
                 </div>
               </div>
               <div className="text-right">
-                <span className="text-2xl font-serif font-bold text-[var(--text-primary)]">
+                <span className="text-2xl font-serif font-extrabold text-[var(--text-primary)]">
                   {book.availableCopies}
                 </span>
                 <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider">Copies in Stock</p>
@@ -183,7 +183,7 @@ export default function BookDetailPage() {
 
           {/* Academic Policies Card */}
           <div className="rounded-3xl border border-[var(--border-card)] bg-[var(--bg-card)] p-6 shadow-xs space-y-4">
-            <h3 className="text-sm font-serif font-bold text-[var(--text-primary)]">
+            <h3 className="text-sm font-serif font-extrabold text-[var(--text-primary)]">
               Circulation Rules for this Item
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-[var(--text-secondary)]">
@@ -212,7 +212,7 @@ export default function BookDetailPage() {
               <span className="text-[10px] font-bold uppercase tracking-wider text-[var(--accent-emerald)] font-mono">
                 Reservation Desk
               </span>
-              <h2 className="text-xl font-serif font-bold text-[var(--text-primary)] mt-0.5">
+              <h2 className="text-xl font-serif font-extrabold text-[var(--text-primary)] mt-0.5">
                 Reserve Physical Copy
               </h2>
             </div>

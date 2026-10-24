@@ -48,7 +48,7 @@ export default function LoginPage() {
           <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--accent-emerald)] font-mono">
             De La Salle Lipa
           </span>
-          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[var(--text-primary)] mt-1">
+          <h2 className="text-2xl sm:text-3xl font-serif font-extrabold text-[var(--text-primary)] mt-1">
             Student & Faculty Portal
           </h2>
           <p className="mt-1.5 text-xs text-[var(--text-secondary)]">

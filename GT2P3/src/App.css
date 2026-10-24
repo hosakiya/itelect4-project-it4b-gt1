@@ -33,7 +33,7 @@
   --radius-lg: 24px;
 
   --font-body: 'Outfit', 'Inter', system-ui, sans-serif;
-  --font-serif: 'Fraunces', Georgia, serif;
+  --font-serif: 'Poppins', sans-serif;
 }
 
 html.dark,

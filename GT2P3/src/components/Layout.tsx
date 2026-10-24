@@ -58,7 +58,7 @@ export default function Layout() {
                   De La Salle Lipa
                 </span>
               </div>
-              <h1 className="text-xl sm:text-2xl font-serif font-bold tracking-tight text-[var(--text-primary)] leading-tight group-hover:text-[var(--accent-emerald)] transition-colors">
+              <h1 className="text-xl sm:text-2xl font-serif font-extrabold tracking-tight text-[var(--text-primary)] leading-tight group-hover:text-[var(--accent-emerald)] transition-colors">
                 Learning Resource Center
               </h1>
             </div>
@@ -279,7 +279,7 @@ export default function Layout() {
           <div className="flex items-center gap-3">
             <img src="/dlsl-logo.png" alt="De La Salle Lipa" className="h-12 w-9 object-contain shrink-0" />
             <div>
-              <p className="text-sm font-serif font-bold text-[var(--text-primary)]">
+              <p className="text-sm font-serif font-extrabold text-[var(--text-primary)]">
                 De La Salle Lipa • Learning Resource Center
               </p>
               <p className="text-xs text-[var(--text-muted)] mt-0.5">
