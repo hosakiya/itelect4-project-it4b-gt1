@@ -135,7 +135,7 @@ export default function HomePage() {
           {/* Quick Categories Bar */}
           <div className="flex flex-wrap items-center gap-2 pt-1 text-xs text-[var(--text-muted)]">
             <span className="font-semibold text-[var(--text-secondary)]">Popular categories:</span>
-            {['Science Fiction', 'Classic Literature', 'Computer Science', 'Dystopian'].map((genre) => (
+            {['Educational', 'Historical', 'Romance', 'Fantasy', 'Horror', 'Dictionaries', 'Science Fiction', 'Mystery & Thriller'].map((genre) => (
               <button
                 key={genre}
                 type="button"
