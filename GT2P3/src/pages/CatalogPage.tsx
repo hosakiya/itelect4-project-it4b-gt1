@@ -27,6 +27,7 @@ export default function CatalogPage() {
   const { data: books = [], isLoading, isError } = useQuery({
     queryKey: ['books'],
     queryFn: getBooks,
+    refetchInterval: 15000,
   });
 
   const handleReserve = (bookId: number | string) => {
@@ -310,6 +311,7 @@ export default function CatalogPage() {
                       <p className="text-xs text-[var(--text-secondary)] leading-relaxed line-clamp-3">
                         {book.description}
                       </p>
+                      {!isAvailable && <p className="mt-2 text-xs font-semibold text-rose-600 dark:text-rose-400">This book is out of stock.</p>}
                     </div>
 
                     {/* Card Actions Footer */}

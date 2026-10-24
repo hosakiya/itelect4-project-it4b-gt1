@@ -45,6 +45,7 @@ export interface Reservation {
     quantity: number;
     purpose: string;
     borrowingPeriod: string;
+    inventoryClaimed?: boolean;
 }
 
 export interface Review {

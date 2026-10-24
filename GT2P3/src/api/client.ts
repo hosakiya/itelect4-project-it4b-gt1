@@ -83,6 +83,7 @@ function toReservation(value: ApiReservation): Reservation {
     quantity: value.quantity ?? 1,
     purpose: value.purpose ?? '',
     borrowingPeriod: value.borrowingPeriod ?? 'Confirm with LRC at checkout',
+    inventoryClaimed: value.inventoryClaimed ?? false,
   };
 }
 

@@ -77,6 +77,31 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Dark green scrollbar thumb across the site */
+html {
+  scrollbar-color: #006039 var(--bg-secondary);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #006039;
+  border: 3px solid var(--bg-secondary);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #059669;
+}
+
 /* ── App Layout ───────────────────────────────────────── */
 
 .app {

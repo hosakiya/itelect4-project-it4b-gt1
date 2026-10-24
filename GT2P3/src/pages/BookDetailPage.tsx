@@ -24,6 +24,7 @@ export default function BookDetailPage() {
     queryKey: ['book', bookId],
     queryFn: () => getBook(bookId!),
     enabled: Boolean(bookId),
+    refetchInterval: 15000,
   });
 
   const reservationMutation = useMutation({
@@ -45,9 +46,14 @@ export default function BookDetailPage() {
     onSuccess: (createdReservation) => {
       queryClient.invalidateQueries({ queryKey: ['reservations'] });
       queryClient.invalidateQueries({ queryKey: ['books'] });
+      queryClient.invalidateQueries({ queryKey: ['book', bookId] });
       setReceipt(createdReservation);
     },
     onError: (err: any) => {
+      if (err?.message === 'This book is out of stock.') {
+        queryClient.invalidateQueries({ queryKey: ['book', bookId] });
+        queryClient.invalidateQueries({ queryKey: ['books'] });
+      }
       alert(err?.message || "Failed to submit reservation.");
     },
   });
@@ -55,6 +61,7 @@ export default function BookDetailPage() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<ReservationFormValues>({
     resolver: zodResolver(reservationSchema),
@@ -65,6 +72,8 @@ export default function BookDetailPage() {
       agreeToTerms: false,
     },
   });
+  const purposeValue = watch('purpose') ?? '';
+  const purposeWordCount = purposeValue.trim().split(/\s+/).filter(Boolean).length;
 
   const onSubmit = (data: ReservationFormValues) => {
     reservationMutation.mutate({
@@ -156,7 +165,7 @@ export default function BookDetailPage() {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-[var(--text-primary)]">
-                    {isAvailable ? 'Available for Checkout' : 'Temporarily Unavailable'}
+                    {isAvailable ? 'Available for Checkout' : 'This book is out of stock.'}
                   </h4>
                   <p className="text-xs text-[var(--text-muted)]">
                     DLSL Main Library • Circulation Shelf
@@ -213,7 +222,7 @@ export default function BookDetailPage() {
                 <AlertTriangle className="w-6 h-6 text-rose-500 mx-auto" />
                 <h4 className="text-xs font-bold text-rose-600 dark:text-rose-400">Currently Out of Stock</h4>
                 <p className="text-[11px] text-rose-600/80 dark:text-rose-400/80">
-                  All copies of this volume are currently on loan. Please check back later.
+                  This book is out of stock. No copies are available to reserve right now.
                 </p>
               </div>
             ) : !token ? (
@@ -267,7 +276,8 @@ export default function BookDetailPage() {
 
                 <div className="space-y-1.5">
                   <Label htmlFor="purpose" className="text-xs font-semibold text-[var(--text-primary)]">Purpose of borrowing</Label>
-                  <textarea id="purpose" rows={4} maxLength={1000} placeholder="Write a few sentences explaining how you plan to use this book." className="w-full resize-y rounded-xl border border-[var(--border-card)] bg-[var(--bg-secondary)] px-3 py-2.5 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-indigo)]" {...register('purpose')} />
+                  <textarea id="purpose" rows={4} maxLength={1000} placeholder="Write 5 to 20 words explaining how you plan to use this book." className="w-full resize-y rounded-xl border border-[var(--border-card)] bg-[var(--bg-secondary)] px-3 py-2.5 text-sm text-[var(--text-primary)] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[var(--accent-indigo)]" {...register('purpose')} />
+                  <p className={`text-[10px] ${purposeWordCount > 20 ? 'text-rose-500' : 'text-[var(--text-muted)]'}`}>{purposeWordCount} / 20 words (minimum 5)</p>
                   {errors.purpose && <p className="text-xs text-rose-500 font-medium">{errors.purpose.message}</p>}
                 </div>
 
