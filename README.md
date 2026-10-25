@@ -1,5 +1,7 @@
 # Book Reservation System - Frontend (ITELECT4)
 
+[![Frontend CI](https://github.com/hosakiya/itelect4-project-it4b-gt1/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/hosakiya/itelect4-project-it4b-gt1/actions/workflows/ci.yml)
+
 Frontend application for the DLSL Book Reservation & Academic Catalog System. Built with React 19, TypeScript, Vite, Tailwind CSS, TanStack Query, and React Hook Form with Zod validation.
 
 ## Live Deployment

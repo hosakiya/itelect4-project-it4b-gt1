@@ -1,7 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { cleanup, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import "@testing-library/jest-dom/vitest";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { askAi } from "../api/client";
 import ReviewPage from "./ReviewPage";
@@ -41,6 +40,7 @@ describe("ReviewPage", () => {
   });
 
   it("validates the prompt before submitting", async () => {
+    const fetchSpy = vi.spyOn(globalThis, "fetch");
     const user = userEvent.setup();
     renderReviewPage();
 
@@ -55,7 +55,9 @@ describe("ReviewPage", () => {
         "Describe your project or reading inquiry in at least 20 characters.",
       ),
     ).toBeInTheDocument();
+    expect(fetchSpy).not.toHaveBeenCalled();
     expect(askAi).not.toHaveBeenCalled();
+    fetchSpy.mockRestore();
   });
 
   it("submits a valid prompt and renders every response field", async () => {

@@ -18,5 +18,6 @@ jobs:
           cache: npm
           cache-dependency-path: GT2P3/package-lock.json
       - run: npm ci
+      - run: npm run typecheck
       - run: npm test
       - run: npm run build
