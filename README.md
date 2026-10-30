@@ -1,35 +1,68 @@
-# Book Reservation System - Frontend (ITELECT4)
+# Book Reservation System — Frontend
 
 [![Frontend CI](https://github.com/hosakiya/itelect4-project-it4b-gt1/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/hosakiya/itelect4-project-it4b-gt1/actions/workflows/ci.yml)
 
-Frontend application for the DLSL Book Reservation & Academic Catalog System. Built with React 19, TypeScript, Vite, Tailwind CSS, TanStack Query, and React Hook Form with Zod validation.
+React and TypeScript frontend for the DLSL Book Reservation & Academic Catalog System. It supports authentication, catalog search, reservations, a student dashboard, and protected AI reviews.
 
-## Live Deployment
-- **Frontend App Live URL**: `https://itelect4-project-it4b-gt1.vercel.app/`
-- **Backend API Live URL**: `https://itelect4-backend-eosin.vercel.app/`
+## Live deployments
 
-## Environment Variables
-Configured in `.env` (local) and Vercel Project Settings (production):
-- `VITE_API_URL`: Base URL of the backend API (e.g. `https://<your-backend-app>.vercel.app` without trailing slash)
+- **Frontend:** [https://itelect4-project-it4b-gt1.vercel.app/](https://itelect4-project-it4b-gt1.vercel.app/)
+- **Backend API:** [https://itelect4-backend-eosin.vercel.app/](https://itelect4-backend-eosin.vercel.app/)
+- **Backend health check:** [https://itelect4-backend-eosin.vercel.app/api/health](https://itelect4-backend-eosin.vercel.app/api/health)
 
-*Note: Never commit `.env`. See `.env.example` for reference.*
+## Architecture
 
-## Features
-- Real authentication flow with Register and Login pages connected to JWT backend
-- Protected routes and persistent session management via Zustand
-- Live book catalog browsing, searching, and filtering by genre
-- Book reservation request modal with form validation
-- Student personal dashboard with active holds, status tracking, and cancellation
-- Protected AI Review page with Gemini-powered recommendations
-- Integration with live MongoDB backend API via unified `request()` client helper
+```mermaid
+flowchart LR
+  Visitor[Browser] --> UI[React and TypeScript UI]
+  UI --> Client[API request client]
+  Client --> API[Express and TypeScript API on Vercel]
+  API --> Auth[JWT authentication]
+  API --> DB[(MongoDB Atlas)]
+  API --> Gemini[Google Gemini API]
+```
 
-## How to Run Locally
-1. Install dependencies: `npm install`, `npm install --prefix GT2P3`, and `npm install --prefix ..\it-elect-backend`
-2. Copy `GT2P3/.env.example` to `GT2P3/.env` and set `VITE_API_URL=http://localhost:4000`
-3. Copy `..\it-elect-backend\.env.example` to `..\it-elect-backend\.env`; set `MONGODB_URI` and `JWT_SECRET`. The example allows `http://localhost:5173` through CORS.
-4. Run `npm run dev` to start both the frontend (`http://localhost:5173`) and backend API (`http://localhost:4000`).
-5. Run frontend tests: `npm test`
-6. Build check: `npm run build` (runs `tsc -b && vite build` with zero TypeScript errors)
+## Run locally
+
+Use PowerShell from the frontend repository folder. The backend repository should be next to this folder, as in the supplied project layout.
+
+1. Install root and frontend dependencies:
+
+   ```powershell
+   npm ci
+   npm ci --prefix GT2P3
+   ```
+
+2. In the sibling `it-elect-backend` folder, install backend dependencies and prepare its local environment:
+
+   ```powershell
+   cd ..\it-elect-backend
+   npm ci
+   Copy-Item .env.example .env
+   ```
+
+   Fill in `MONGODB_URI` and `JWT_SECRET`. Set `CORS_ORIGIN` to `http://localhost:5173`; add `GEMINI_API_KEY` to enable AI reviews. `MONGODB_DNS_SERVERS` is optional.
+
+3. Return to the frontend repository folder and set up the Vite environment:
+
+   ```powershell
+   cd ..\ITELECTGT1P1
+   Copy-Item GT2P3/.env.example GT2P3/.env
+   ```
+
+   Set `VITE_API_URL=http://localhost:4000` in `GT2P3/.env`.
+
+4. Start the frontend and backend together with `npm run dev`.
+5. Run the frontend tests with `npm test` and the production build check with `npm run build`.
+
+## Environment variable
+
+`VITE_API_URL` is the backend base URL, without `/api` or a trailing slash. The Vercel frontend project uses the backend deployment URL shown above. `.env.example` files document local configuration; do not commit `.env` files.
+
+## AI-use disclosure
+
+OpenAI Codex assisted with the implementation and documentation of the tests and CI workflow for this assignment.
 
 ## Author
+
 Mikaela Ysabel L. Lantafe | IT4B
