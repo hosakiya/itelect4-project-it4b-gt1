@@ -61,7 +61,7 @@ Use PowerShell from the frontend repository folder. The backend repository shoul
 
 ## AI-use disclosure
 
-OpenAI Codex assisted with the implementation and documentation of the tests and CI workflow for this assignment.
+OpenAI Codex (an AI coding assistant) was used to help write the frontend component, hook, and form tests; backend route tests; Vitest and CI configuration; environment examples; and project documentation. The author ran the local tests and build checks.
 
 ## Author
 
